@@ -1,26 +1,202 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════
+   Sistema Hechos · Tokens
+   Identidad derivada del logo oficial de hechos:
+   un único tono azul (#27B4E9) + neutros con matiz azul.
+   ═══════════════════════════════════════════════ */
+
+/* ── Tokens semánticos (Light, defecto) ── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 'canvas' (no 'base'): 'base' colisiona con la utilidad text-base
+     de tamaño de fuente en Tailwind v4. */
+  --h-canvas: #fcfdfe;
+  --h-elevated: #ffffff;
+  --h-subtle: #f4f8fb;
+  --h-inset: #eaf0f5;
+  --h-ink: #0c1826;
+  --h-ink-soft: #5a6b7a;
+  --h-ink-mute: #93a2af;
+  --h-line: #dce5ec;
+  --h-brand: #0b6e9c;
+  --h-brand-strong: #0c5878;
+  --h-brand-soft: #eaf7fd;
+  --h-on-brand: #ffffff;
+  /* Acción: azul profundo (texto blanco AA); nunca el azul brillante,
+     que se reserva a decoración (--h-glow). */
+  --h-accent: #0b6e9c;
+  --h-accent-hover: #0a5f86;
+  --h-accent-active: #094e6e;
+  --h-on-accent: #ffffff;
+  --h-glow: #27b4e9;
+  --h-focus: #12a0da;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* ── Dark Mode: remapeo semántico (sigue al sistema; el toggle
+     manual queda para la fase de Perfil). Base azul-negra del logo. ── */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --h-canvas: #0a1620;
+    --h-elevated: #0f1e2a;
+    --h-subtle: #12232f;
+    --h-inset: #172c39;
+    --h-ink: #e8f0f5;
+    --h-ink-soft: #9fb2bf;
+    --h-ink-mute: #6b7e8c;
+    --h-line: #22323f;
+    --h-brand: #6ec7ec;
+    --h-brand-strong: #a6dcf3;
+    --h-brand-soft: #12232f;
+    --h-on-brand: #0a2a3b;
+    --h-accent: #12a0da;
+    --h-accent-hover: #27b4e9;
+    --h-accent-active: #0e86bc;
+    --h-on-accent: #04222f;
+    --h-glow: #27b4e9;
+    --h-focus: #27b4e9;
   }
 }
 
+/* ── Mapeo semántico → utilidades (bg-base, text-ink, border-line…) ── */
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-inter), ui-sans-serif,
+    sans-serif;
+
+  --color-canvas: var(--h-canvas);
+  --color-elevated: var(--h-elevated);
+  --color-subtle: var(--h-subtle);
+  --color-inset: var(--h-inset);
+  --color-ink: var(--h-ink);
+  --color-ink-soft: var(--h-ink-soft);
+  --color-ink-mute: var(--h-ink-mute);
+  --color-line: var(--h-line);
+  --color-brand: var(--h-brand);
+  --color-brand-strong: var(--h-brand-strong);
+  --color-brand-soft: var(--h-brand-soft);
+  --color-on-brand: var(--h-on-brand);
+  --color-accent: var(--h-accent);
+  --color-accent-hover: var(--h-accent-hover);
+  --color-accent-active: var(--h-accent-active);
+  --color-on-accent: var(--h-on-accent);
+  --color-glow: var(--h-glow);
+  --color-focus: var(--h-focus);
+}
+
+/* ── Paleta cruda, radios, sombras teñidas y easings ── */
+@theme {
+  /* Azul Hechos · un solo tono (H≈198°), del logo oficial */
+  --color-azul-50: #eaf7fd;
+  --color-azul-100: #d0edfa;
+  --color-azul-200: #a6dcf3;
+  --color-azul-300: #6ec7ec;
+  --color-azul-400: #27b4e9; /* azul exacto del logo — decoración */
+  --color-azul-500: #12a0da;
+  --color-azul-600: #0e86bc;
+  --color-azul-700: #0b6e9c;
+  --color-azul-800: #0c5878;
+  --color-azul-900: #0b4159;
+  --color-azul-950: #0a2a3b;
+
+  /* Niebla · neutros con matiz azul (pertenecen a la identidad) */
+  --color-niebla-0: #fcfdfe;
+  --color-niebla-50: #f4f8fb;
+  --color-niebla-100: #eaf0f5;
+  --color-niebla-200: #dce5ec;
+  --color-niebla-400: #93a2af;
+  --color-niebla-600: #5a6b7a;
+  --color-niebla-800: #2b3a47;
+  --color-niebla-950: #0c1826;
+
+  /* Semánticos de estado — funcionales, reservados para formularios
+     de la futura app. La landing expresa éxito/info en azul. */
+  --color-exito-100: #d0edfa;
+  --color-exito-500: #0e86bc;
+  --color-error-100: #fbe3e3;
+  --color-error-500: #d93a3a;
+  --color-info-100: #eaf7fd;
+  --color-info-500: #12a0da;
+
+  /* Radius: sm 8 · md 12 · lg 16 · xl 24 · full pill */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  /* Sombras teñidas de azul-950 (nunca negro puro) */
+  --shadow-xs: 0 1px 2px rgb(10 42 59 / 0.06);
+  --shadow-sm: 0 2px 8px rgb(10 42 59 / 0.08);
+  --shadow-md: 0 6px 20px rgb(10 42 59 / 0.1);
+  --shadow-lg: 0 16px 40px -8px rgb(10 42 59 / 0.18);
+  --shadow-cta: 0 4px 18px rgb(39 180 233 / 0.35);
+
+  /* Movimiento */
+  --ease-salida: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-ambos: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Entradas del hero: CSS puro — pintan antes de que el JS hidrate. */
+  --animate-enter: enter 0.5s var(--ease-salida) both;
+  --animate-enter-zoom: enter-zoom 0.6s var(--ease-salida) both;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes enter {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes enter-zoom {
+    from {
+      opacity: 0;
+      transform: translateY(24px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+}
+
+/* ── Base ── */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--h-canvas);
+  color: var(--h-ink);
+}
+
+/* ── Focus visible: anillo 2px con offset, instantáneo ── */
+:where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--h-focus);
+  outline-offset: 2px;
+}
+
+/* ── prefers-reduced-motion ── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
