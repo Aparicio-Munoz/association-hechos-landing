@@ -46,3 +46,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# repos separados (viven en su propio remoto, ver memoria del proyecto)
+/admin/
+/backend/

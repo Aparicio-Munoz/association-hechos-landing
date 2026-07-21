@@ -250,6 +250,34 @@
     "termsTitle": "Términos y condiciones",
     "legalBody": "Este documento está en preparación. Si tienes preguntas sobre cómo protegemos tus datos o las condiciones de uso, escríbenos directamente."
   },
+  "auth": {
+    "registerTitle": "Crea tu cuenta",
+    "registerSubtitle": "Regístrate para acceder a los cursos y las ofertas de empleo de Hechos.",
+    "loginTitle": "Inicia sesión",
+    "loginSubtitle": "Entra con tu correo y contraseña.",
+    "nameLabel": "Nombre",
+    "lastNameLabel": "Apellido (opcional)",
+    "emailLabel": "Correo electrónico",
+    "passwordLabel": "Contraseña",
+    "passwordHint": "Mínimo 8 caracteres.",
+    "registerCta": "Crear cuenta",
+    "loginCta": "Entrar",
+    "registerPendingCta": "Creando cuenta…",
+    "loginPendingCta": "Entrando…",
+    "hasAccount": "¿Ya tienes cuenta?",
+    "noAccount": "¿Aún no tienes cuenta?",
+    "goToLogin": "Inicia sesión",
+    "goToRegister": "Regístrate",
+    "genericError": "Algo salió mal. Inténtalo de nuevo en unos minutos.",
+    "requiredFieldsError": "Completa los campos obligatorios."
+  },
+  "account": {
+    "kicker": "Tu cuenta",
+    "title": "Hola, {nombre}",
+    "body": "Tu sesión es real: tu cuenta ya vive en el backend de Hechos. La plataforma de cursos y empleo todavía está en construcción, así que por ahora no hay nada más que mostrarte aquí — pero tu registro ya quedó guardado y te avisaremos según vaya avanzando.",
+    "emailLabel": "Correo",
+    "logoutCta": "Cerrar sesión"
+  },
   "footer": {
     "tagline": "Educación, empleabilidad e inclusión social para jóvenes, personas migrantes y menores extranjeros no acompañados.",
     "addressLine": "Calle Molino Salinas, 3, bajo · 09007 Burgos, España",

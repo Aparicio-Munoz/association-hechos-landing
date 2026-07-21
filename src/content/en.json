@@ -250,6 +250,34 @@
     "termsTitle": "Terms & Conditions",
     "legalBody": "This document is being prepared. If you have questions about how we protect your data or the terms of use, write to us directly."
   },
+  "auth": {
+    "registerTitle": "Create your account",
+    "registerSubtitle": "Sign up to access Hechos' courses and job listings.",
+    "loginTitle": "Log in",
+    "loginSubtitle": "Enter your email and password.",
+    "nameLabel": "First name",
+    "lastNameLabel": "Last name (optional)",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "passwordHint": "8 characters minimum.",
+    "registerCta": "Create account",
+    "loginCta": "Log in",
+    "registerPendingCta": "Creating account…",
+    "loginPendingCta": "Logging in…",
+    "hasAccount": "Already have an account?",
+    "noAccount": "Don't have an account yet?",
+    "goToLogin": "Log in",
+    "goToRegister": "Sign up",
+    "genericError": "Something went wrong. Please try again in a few minutes.",
+    "requiredFieldsError": "Please fill in the required fields."
+  },
+  "account": {
+    "kicker": "Your account",
+    "title": "Hi, {nombre}",
+    "body": "Your session is real: your account already lives in Hechos' backend. The courses and jobs platform is still under construction, so there's nothing else to show here yet — but your registration is saved and we'll let you know as it moves forward.",
+    "emailLabel": "Email",
+    "logoutCta": "Log out"
+  },
   "footer": {
     "tagline": "Education, employability and social inclusion for young people, migrants and unaccompanied foreign minors.",
     "addressLine": "Calle Molino Salinas, 3, bajo · 09007 Burgos, Spain",
