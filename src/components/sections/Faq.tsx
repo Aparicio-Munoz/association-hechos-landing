@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { ChevronDown } from "lucide-react";
 import { Container } from "@/components/layout/Container";
@@ -14,7 +13,7 @@ export async function Faq() {
   const items = [1, 2, 3, 4, 5, 6] as const;
 
   return (
-    <section className="bg-subtle py-20 sm:py-28">
+    <section className="bg-canvas py-20 sm:py-28">
       <Container width="prose">
         <Reveal>
           <h2 className="text-center font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
@@ -44,12 +43,12 @@ export async function Faq() {
         </div>
 
         <Reveal delay={80} className="mt-8 text-center">
-          <Link
-            href="/contacto"
+          <a
+            href="#contacto"
             className="text-sm font-semibold text-brand hover:text-brand-strong"
           >
             {t("contactCta")}
-          </Link>
+          </a>
         </Reveal>
       </Container>
     </section>

@@ -19,7 +19,8 @@ const variants = {
   ghost: "text-brand hover:bg-brand-soft",
   google: "border border-line bg-elevated text-ink hover:bg-subtle",
   // Para fondos de marca oscuros (CTA final): relleno claro, texto azul.
-  inverse: "bg-white text-azul-800 hover:bg-azul-50",
+  // 'niebla-0' en vez de 'white' literal: sigue siendo parte de la paleta.
+  inverse: "bg-niebla-0 text-azul-800 hover:bg-azul-50",
 } as const;
 
 const sizes = {
@@ -30,6 +31,16 @@ const sizes = {
 
 type Variant = keyof typeof variants;
 type Size = keyof typeof sizes;
+
+/** Clases del sistema de botones, para componer con otros elementos
+ * (p. ej. el `Link` de next-intl, que sí preserva el prefijo de idioma). */
+export function buttonClasses(
+  variant: Variant = "primary",
+  size: Size = "md",
+  className?: string,
+) {
+  return cn(base, variants[variant], sizes[size], className);
+}
 
 type ButtonProps = {
   variant?: Variant;

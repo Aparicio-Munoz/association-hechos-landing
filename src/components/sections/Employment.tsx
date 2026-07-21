@@ -1,47 +1,40 @@
 import { getTranslations } from "next-intl/server";
-import { ArrowRight, Bell } from "lucide-react";
+import { Bell } from "lucide-react";
 import { Container } from "@/components/layout/Container";
+import { SectionIntro } from "@/components/layout/SectionIntro";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealGroup, RevealItem } from "@/components/motion/RevealGroup";
+import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 
 /**
  * Filas de lista, no tarjetas: contraste de textura deliberado con
  * Cursos (visual) — la sobriedad tipográfica comunica seriedad laboral.
+ *
+ * Honestidad: antes mostraba fechas inventadas ("hace 2 días") para
+ * simular vacantes reales y recientes. Se reemplaza por un badge
+ * "Ejemplo" — mismo criterio que Courses.tsx: esto ilustra el tipo de
+ * vacante que conectaremos con jóvenes (Creando Puentes), no ofertas
+ * reales ya publicadas.
  */
 export async function Employment() {
   const t = await getTranslations("employment");
 
   const jobs = [
-    { role: t("job1Role"), category: t("job1Category"), time: t("job1Time") },
-    { role: t("job2Role"), category: t("job2Category"), time: t("job2Time") },
-    { role: t("job3Role"), category: t("job3Category"), time: t("job3Time") },
+    { role: t("job1Role"), category: t("job1Category") },
+    { role: t("job2Role"), category: t("job2Category") },
+    { role: t("job3Role"), category: t("job3Category") },
   ];
 
   return (
-    <section id="empleo" className="bg-canvas py-20 sm:py-28">
+    <section id="empleabilidad" className="bg-canvas py-20 sm:py-28">
       <Container width="prose">
-        <Reveal className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-brand">
-              {t("kicker")}
-            </p>
-            <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-              {t("title")}
-            </h2>
-          </div>
-          <a
-            href="#empleo"
-            className="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:text-brand-strong"
-          >
-            {t("cta")}
-            <ArrowRight
-              size={16}
-              className="transition-transform duration-150 ease-salida group-hover:translate-x-0.5"
-              aria-hidden
-            />
-          </a>
-        </Reveal>
+        <SectionIntro
+          align="left"
+          kicker={t("kicker")}
+          title={t("title")}
+          subtitle={t("subtitle")}
+        />
 
         <RevealGroup className="mt-10 divide-y divide-line rounded-lg border border-line bg-elevated">
           {jobs.map((j) => (
@@ -53,7 +46,12 @@ export async function Employment() {
                 <p className="truncate font-medium text-ink">{j.role}</p>
                 <p className="text-sm text-ink-soft">{j.category}</p>
               </div>
-              <span className="shrink-0 text-sm text-ink-mute">{j.time}</span>
+              <Badge
+                tone="neutral"
+                className="shrink-0 border border-dashed border-line"
+              >
+                {t("previewBadge")}
+              </Badge>
             </RevealItem>
           ))}
         </RevealGroup>

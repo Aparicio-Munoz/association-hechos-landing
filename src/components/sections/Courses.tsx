@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
-import { ArrowRight, PlayCircle } from "lucide-react";
+import { PlayCircle } from "lucide-react";
 import { Container } from "@/components/layout/Container";
-import { Reveal } from "@/components/motion/Reveal";
+import { SectionIntro } from "@/components/layout/SectionIntro";
 import { RevealGroup, RevealItem } from "@/components/motion/RevealGroup";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
@@ -25,27 +25,12 @@ export async function Courses() {
   return (
     <section id="formacion" className="bg-subtle py-20 sm:py-28">
       <Container>
-        <Reveal className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-brand">
-              {t("kicker")}
-            </p>
-            <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-              {t("title")}
-            </h2>
-          </div>
-          <a
-            href="#formacion"
-            className="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:text-brand-strong"
-          >
-            {t("cta")}
-            <ArrowRight
-              size={16}
-              className="transition-transform duration-150 ease-salida group-hover:translate-x-0.5"
-              aria-hidden
-            />
-          </a>
-        </Reveal>
+        <SectionIntro
+          align="left"
+          kicker={t("kicker")}
+          title={t("title")}
+          subtitle={t("subtitle")}
+        />
 
         <RevealGroup className="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:overflow-visible">
           {courses.map((c, i) => (
@@ -57,12 +42,22 @@ export async function Courses() {
                 <div
                   className={`relative aspect-video overflow-hidden bg-linear-to-br ${thumbGradients[i]}`}
                 >
+                  {/* Honestidad: esto ilustra cómo se verá el catálogo, no
+                      cursos reales ya publicados — mismo criterio que
+                      Impact/SuccessStories/News. */}
+                  <Badge
+                    tone="neutral"
+                    className="absolute left-2 top-2 border border-dashed border-niebla-0/40 bg-azul-950/40 text-niebla-0 backdrop-blur-sm"
+                  >
+                    {t("previewBadge")}
+                  </Badge>
                   <PlayCircle
                     size={44}
-                    className="absolute inset-0 m-auto text-white/90 transition-transform duration-400 ease-salida group-hover:scale-105"
+                    className="absolute inset-0 m-auto text-niebla-0/90 transition-transform duration-400 ease-salida group-hover:scale-105"
                     aria-hidden
                   />
-                  <span className="absolute bottom-2 right-2 rounded-sm bg-black/40 px-2 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
+                  {/* Scrim teñido de azul-950, nunca negro puro (regla del sistema). */}
+                  <span className="absolute bottom-2 right-2 rounded-sm bg-azul-950/50 px-2 py-0.5 text-xs font-medium text-niebla-0 backdrop-blur-sm">
                     {c.duration}
                   </span>
                 </div>

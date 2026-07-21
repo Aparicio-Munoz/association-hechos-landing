@@ -24,7 +24,11 @@ const bricolage = Bricolage_Grotesque({
 
 type Params = { params: Promise<{ locale: string }> };
 
-/** El chrome del navegador móvil toma el color del fondo en cada modo. */
+/**
+ * El chrome del navegador móvil toma el color del fondo en cada modo.
+ * `theme-color` exige un valor literal (no lee variables CSS): estos hex
+ * son --h-canvas de globals.css en light/dark, no colores nuevos.
+ */
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#fcfdfe" },
@@ -72,13 +76,25 @@ export default async function LocaleLayout({
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
+  const tMeta = await getTranslations({ locale, namespace: "meta" });
+  // JSON-LD (schema.org NGO): reutiliza SITE_NAME/SITE_URL/logo ya
+  // existentes — nada nuevo que mantener sincronizado a mano.
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NGO",
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: `${SITE_URL}/images/logo-hechos-512.png`,
+    description: tMeta("description"),
+  };
+
   const t = await getTranslations({ locale, namespace: "nav" });
   const labels: NavbarLabels = {
     navLabel: t("navLabel"),
-    formacion: t("formacion"),
-    empleo: t("empleo"),
-    comunidad: t("comunidad"),
-    nosotros: t("nosotros"),
+    mision: t("mision"),
+    programas: t("programas"),
+    historias: t("historias"),
+    contacto: t("contacto"),
     entrar: t("entrar"),
     unete: t("unete"),
     abrirMenu: t("abrirMenu"),
@@ -90,6 +106,10 @@ export default async function LocaleLayout({
     <html lang={locale} className={`${inter.variable} ${bricolage.variable}`}>
       {/* bg/color del documento: una sola fuente de verdad en globals.css */}
       <body className="font-sans antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         {/* Primer elemento enfocable: salto directo al contenido (WCAG 2.4.1) */}
         <a
           href="#contenido"

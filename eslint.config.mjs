@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Sibling subprojects with their own lint configs.
+    "admin/**",
+    "backend/**",
   ]),
 ]);
 

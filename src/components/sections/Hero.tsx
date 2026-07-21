@@ -1,28 +1,33 @@
 import { getTranslations } from "next-intl/server";
 import {
-  Bell,
   Briefcase,
-  CheckCircle2,
   GraduationCap,
-  PlayCircle,
+  HeartHandshake,
   Sparkles,
-  User,
+  Target,
   Users,
 } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/Button";
-import { GoogleLogo } from "@/components/ui/GoogleLogo";
+import { Badge } from "@/components/ui/Badge";
 import { CountUp } from "@/components/motion/CountUp";
 import { cn } from "@/lib/cn";
 
-/** Tarjeta glass flotante sobre el mockup (decorativa). */
-function FloatingCard({
-  icon,
+/**
+ * Tarjeta glass flotante con un programa real (icono + nombre + una
+ * línea de su objetivo). Antes mostraba citas de "A. G." / "M. R." —
+ * testimonios sin verificar, lo mismo que SuccessStories.tsx evita
+ * explícitamente en el resto del sitio. Se reemplaza por información
+ * institucional real (los mismos 5 programas de Programs.tsx), nunca
+ * inventada.
+ */
+function FloatingProgram({
+  icon: Icon,
   title,
   body,
   className,
 }: {
-  icon: React.ReactNode;
+  icon: typeof Briefcase;
   title: string;
   body: string;
   className?: string;
@@ -30,16 +35,18 @@ function FloatingCard({
   return (
     <div
       className={cn(
-        "absolute hidden w-64 items-center gap-3 rounded-lg border border-line/60",
-        "bg-elevated/75 p-3 text-left shadow-md backdrop-blur-md",
+        "absolute hidden w-60 items-start gap-3 rounded-lg border border-line/60",
+        "bg-elevated/80 p-3.5 text-left shadow-md backdrop-blur-md",
         "animate-float sm:flex",
         className,
       )}
     >
-      {icon}
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-soft text-brand">
+        <Icon size={15} aria-hidden />
+      </span>
       <div className="min-w-0">
-        <p className="truncate text-sm font-semibold text-ink">{title}</p>
-        <p className="truncate text-xs text-ink-soft">{body}</p>
+        <p className="text-sm font-semibold text-ink">{title}</p>
+        <p className="mt-0.5 text-xs leading-snug text-ink-soft">{body}</p>
       </div>
     </div>
   );
@@ -48,207 +55,182 @@ function FloatingCard({
 export async function Hero() {
   const t = await getTranslations("hero");
 
+  /**
+   * Estadísticas institucionales, no de producto. Solo dos son cifras
+   * reales y verificables en hechos.eu: el año de fundación (2003) y
+   * el número de programas (5, un hecho del propio sitio — igual que
+   * en Impact.tsx). No existe un dato oficial de jóvenes acompañados,
+   * así que se muestra como "pendiente de verificación" en vez de
+   * inventar un número que parezca real.
+   */
   const stats = [
-    { to: 100, suffix: "%", label: t("statFree") },
-    { to: 2, label: t("statLangs") },
-    { to: 24, suffix: "/7", label: t("statOpen") },
+    { kind: "year" as const, value: 2003, label: t("statYearLabel") },
+    { kind: "count" as const, value: 5, label: t("statProgramsLabel") },
+    { kind: "pending" as const, label: t("statYouthLabel") },
   ];
 
-  const courses = [
-    { title: t("mockCourse1"), progress: 80 },
-    { title: t("mockCourse2"), progress: 100 },
-    { title: t("mockCourse3"), progress: 35 },
-  ];
-
-  const sideNav = [
-    { icon: GraduationCap, label: t("mockNavFormacion"), active: true },
-    { icon: Briefcase, label: t("mockNavEmpleo") },
-    { icon: Users, label: t("mockNavComunidad") },
-    { icon: User, label: t("mockNavPerfil") },
+  const pillars = [
+    { icon: GraduationCap, label: t("pillar1") },
+    { icon: Briefcase, label: t("pillar2") },
+    { icon: Users, label: t("pillar3") },
   ];
 
   return (
     <section className="relative isolate overflow-hidden">
-      {/* ── Capas de fondo: grid de puntos + auroras teal/ámbar ── */}
+      {/* ── Capas de fondo: grid de puntos (concentrado a la izquierda,
+          para no competir con el retrato) + auroras azules ── */}
       <div aria-hidden className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(var(--h-line)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,black_30%,transparent_75%)]" />
-        <div className="absolute -top-40 left-1/2 h-120 w-200 -translate-x-1/2 rounded-full bg-azul-400/15 blur-3xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(var(--h-line)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_50%_55%_at_30%_0%,black_25%,transparent_70%)]" />
+        <div className="absolute -top-40 left-1/3 h-120 w-200 -translate-x-1/2 rounded-full bg-azul-400/15 blur-3xl" />
         <div className="absolute top-40 -right-40 h-96 w-96 rounded-full bg-azul-300/18 blur-3xl" />
-        <div className="absolute top-72 -left-32 h-80 w-80 rounded-full bg-azul-500/10 blur-3xl" />
       </div>
 
-      <Container className="flex flex-col items-center pt-16 pb-24 text-center sm:pt-20 lg:pt-24">
-        {/* Badge glass */}
-        <p className="animate-enter flex items-center gap-2 rounded-full border border-line/70 bg-elevated/60 px-4 py-1.5 text-sm font-medium text-ink-soft shadow-xs backdrop-blur">
-          <Sparkles size={14} className="text-accent" aria-hidden />
-          {t("badge")}
-        </p>
+      <Container
+        width="wide"
+        className="grid items-center gap-16 pt-16 pb-24 sm:pt-20 lg:grid-cols-[1.05fr_0.95fr] lg:pt-24"
+      >
+        {/* ── Columna de texto ── */}
+        <div className="flex flex-col items-start text-left">
+          <p className="animate-enter flex items-center gap-2 rounded-full border border-line/70 bg-elevated/60 px-4 py-1.5 text-sm font-medium text-ink-soft shadow-xs backdrop-blur">
+            <Sparkles size={14} className="text-accent" aria-hidden />
+            {t("badge")}
+          </p>
 
-        {/* H1: storytelling con la palabra-comunidad en degradado */}
-        <h1 className="animate-enter mt-6 max-w-4xl font-display text-4xl font-bold tracking-tight text-ink [animation-delay:80ms] sm:text-6xl lg:text-7xl">
-          {t("h1Start")}{" "}
-          <span className="bg-linear-to-r from-azul-700 via-azul-500 to-azul-400 bg-clip-text text-transparent">
-            {t("h1Accent")}
-          </span>
-          <span className="text-glow">.</span>
-        </h1>
+          <h1 className="animate-enter mt-6 max-w-xl font-display text-4xl font-bold tracking-tight text-ink [animation-delay:80ms] sm:text-5xl lg:text-6xl">
+            {t("h1Start")}{" "}
+            <span className="bg-linear-to-r from-azul-700 via-azul-500 to-azul-400 bg-clip-text text-transparent">
+              {t("h1Accent")}
+            </span>{" "}
+            {t("h1End")}
+            <span className="text-glow">.</span>
+          </h1>
 
-        <p className="animate-enter mt-6 max-w-2xl text-lg text-ink-soft [animation-delay:160ms] sm:text-xl">
-          {t("subtitle")}
-        </p>
+          <p className="animate-enter mt-6 max-w-lg text-lg text-ink-soft [animation-delay:160ms] sm:text-xl">
+            {t("subtitle")}
+          </p>
 
-        {/* CTAs */}
-        <div className="animate-enter mt-8 flex w-full flex-col items-center justify-center gap-3 [animation-delay:240ms] sm:w-auto sm:flex-row">
-          <Button size="lg" href="/registro" className="w-full sm:w-auto">
-            {t("cta")}
-          </Button>
-          <Button
-            variant="google"
-            size="lg"
-            href="/registro"
-            className="w-full sm:w-auto"
-          >
-            <GoogleLogo />
-            {t("ctaGoogle")}
-          </Button>
+          {/* CTAs: la conversión y el conocer-la-misión no compiten en el mismo peso */}
+          <div className="animate-enter mt-8 flex w-full flex-col items-start gap-3 [animation-delay:240ms] sm:w-auto sm:flex-row sm:items-center">
+            <Button size="lg" href="/registro" className="w-full sm:w-auto">
+              {t("cta")}
+            </Button>
+            <Button
+              variant="secondary"
+              size="lg"
+              href="#mision"
+              className="w-full sm:w-auto"
+            >
+              {t("ctaSecondary")}
+            </Button>
+          </div>
+
+          <p className="animate-enter mt-4 text-sm text-ink-soft [animation-delay:300ms]">
+            {t("micro")}
+          </p>
+
+          {/* Tarjetas informativas: los tres caminos, sin simular ser un producto */}
+          <ul className="animate-enter mt-10 flex flex-wrap gap-3 [animation-delay:340ms]">
+            {pillars.map((p) => (
+              <li
+                key={p.label}
+                className="flex items-center gap-2 rounded-lg border border-line bg-elevated px-3.5 py-2 text-sm font-medium text-ink shadow-xs"
+              >
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-soft text-brand">
+                  <p.icon size={14} aria-hidden />
+                </span>
+                {p.label}
+              </li>
+            ))}
+          </ul>
+
+          {/* Estadísticas institucionales: solo "fundada en" y "programas"
+              son cifras reales y verificables; "jóvenes acompañados" no
+              tiene dato oficial todavía, así que se marca como pendiente
+              en vez de mostrar un número inventado. */}
+          <dl className="animate-enter mt-10 flex items-center gap-8 [animation-delay:420ms] sm:gap-12">
+            {stats.map((s) => (
+              <div key={s.label} className="flex flex-col items-start">
+                <dt className="sr-only">{s.label}</dt>
+                {s.kind === "pending" ? (
+                  <>
+                    <dd>
+                      <Badge
+                        tone="neutral"
+                        className="border border-dashed border-line bg-transparent"
+                      >
+                        {t("pendingBadge")}
+                      </Badge>
+                    </dd>
+                    <dd className="mt-2 text-sm text-ink-soft">{s.label}</dd>
+                  </>
+                ) : (
+                  <>
+                    <dd className="font-display text-3xl font-bold text-ink sm:text-4xl">
+                      {s.kind === "count" ? (
+                        <CountUp to={s.value} delay={600} />
+                      ) : (
+                        s.value
+                      )}
+                    </dd>
+                    <dd className="mt-1 text-sm text-ink-soft" aria-hidden>
+                      {s.label}
+                    </dd>
+                  </>
+                )}
+              </div>
+            ))}
+          </dl>
         </div>
 
-        <p className="animate-enter mt-4 text-sm text-ink-mute [animation-delay:300ms]">
-          {t("micro")}
-        </p>
+        {/* ── Columna visual: ilustración abstracta de inclusión y
+            formación (placeholder hasta tener foto real). Solo la
+            ilustración es aria-hidden; las FloatingProgram llevan texto
+            real (nombre y objetivo de un programa) y deben quedar
+            legibles para lectores de pantalla. ── */}
+        <div className="animate-enter-zoom relative mx-auto w-full max-w-md [animation-delay:220ms]">
+          {/* TODO(fotografía real): sustituir esta ilustración por <Image>
+              con una foto real de la comunidad de Hechos (con
+              consentimiento) en cuanto esté disponible. No usar fotos de
+              stock genéricas ni imágenes generadas por IA para
+              representar a la comunidad. */}
+          <div
+            aria-hidden
+            className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-linear-to-br from-azul-700 to-azul-950 shadow-lg"
+          >
+            <div className="absolute -top-12 -right-12 h-56 w-56 rounded-full bg-azul-400/25 blur-3xl" />
+            <div className="absolute bottom-0 left-0 h-40 w-40 rounded-full bg-azul-300/15 blur-3xl" />
 
-        {/* Estadísticas (RNF: gratuidad, 2 idiomas, 24/7 — todas ciertas) */}
-        <dl className="animate-enter mt-12 flex items-center justify-center gap-8 [animation-delay:380ms] sm:gap-12">
-          {stats.map((s) => (
-            <div key={s.label} className="flex flex-col items-center">
-              <dt className="sr-only">{s.label}</dt>
-              <dd className="font-display text-3xl font-bold text-ink sm:text-4xl">
-                <CountUp to={s.to} suffix={s.suffix} delay={600} />
-              </dd>
-              <dd className="mt-1 text-sm text-ink-soft" aria-hidden>
-                {s.label}
-              </dd>
-            </div>
-          ))}
-        </dl>
-
-        {/* ── Mockup de la plataforma (decorativo: aria-hidden) ── */}
-        <div
-          aria-hidden
-          className="animate-enter-zoom relative mt-16 w-full max-w-4xl [animation-delay:450ms]"
-        >
-          {/* Anillo degradado alrededor de la ventana */}
-          <div className="rounded-2xl bg-linear-to-b from-azul-300/50 via-line to-transparent p-px shadow-lg">
-            <div className="overflow-hidden rounded-2xl bg-elevated text-left">
-              {/* Barra de ventana */}
-              <div className="flex items-center gap-4 border-b border-line px-4 py-3">
-                <div className="flex gap-1.5">
-                  <span className="h-2.5 w-2.5 rounded-full bg-azul-200" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-azul-300" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-azul-400" />
-                </div>
-                <div className="mx-auto rounded-full bg-inset px-4 py-1 text-xs text-ink-mute">
-                  {t("mockUrl")}
-                </div>
-                <div className="w-10" />
+            <div className="relative flex h-full flex-col items-center justify-center gap-4 p-8 text-center">
+              {/* Composición: círculos superpuestos = personas diversas
+                  conectadas (inclusión); birrete = formación; corazón =
+                  acompañamiento cercano. Arte abstracto propio, no una
+                  fotografía simulada. */}
+              <div className="relative flex h-32 w-32 items-center justify-center">
+                <span className="absolute -left-2 -top-2 flex h-14 w-14 items-center justify-center rounded-full bg-niebla-0/10 text-niebla-0/70">
+                  <GraduationCap size={22} aria-hidden />
+                </span>
+                <span className="absolute -right-2 -bottom-2 flex h-14 w-14 items-center justify-center rounded-full bg-niebla-0/10 text-niebla-0/70">
+                  <HeartHandshake size={22} aria-hidden />
+                </span>
+                <span className="flex h-20 w-20 items-center justify-center rounded-full bg-niebla-0/15 text-niebla-0">
+                  <Users size={32} aria-hidden />
+                </span>
               </div>
-
-              <div className="flex">
-                {/* Sidebar */}
-                <div className="hidden w-44 shrink-0 border-r border-line p-3 sm:block">
-                  <div className="px-2 pb-3 font-display text-sm font-bold text-ink">
-                    Hechos
-                  </div>
-                  <nav className="flex flex-col gap-1">
-                    {sideNav.map((item) => (
-                      <span
-                        key={item.label}
-                        className={cn(
-                          "flex items-center gap-2 rounded-md px-2 py-1.5 text-xs font-medium",
-                          item.active
-                            ? "bg-brand-soft text-brand"
-                            : "text-ink-soft",
-                        )}
-                      >
-                        <item.icon size={14} />
-                        {item.label}
-                      </span>
-                    ))}
-                  </nav>
-                </div>
-
-                {/* Panel principal: Formación con progreso */}
-                <div className="flex-1 p-4 sm:p-6">
-                  <div className="flex items-center justify-between">
-                    <p className="font-display text-base font-bold text-ink">
-                      {t("mockTitle")}
-                    </p>
-                    <span className="rounded-full bg-azul-50 px-3 py-1 text-xs font-medium text-azul-700">
-                      {t("mockChip")}
-                    </span>
-                  </div>
-
-                  <div className="mt-4 flex flex-col gap-3">
-                    {courses.map((c) => (
-                      <div
-                        key={c.title}
-                        className="flex items-center gap-3 rounded-lg border border-line bg-canvas p-3"
-                      >
-                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-brand-soft text-brand">
-                          {c.progress === 100 ? (
-                            <CheckCircle2 size={18} />
-                          ) : (
-                            <PlayCircle size={18} />
-                          )}
-                        </span>
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-baseline justify-between gap-2">
-                            <p className="truncate text-sm font-medium text-ink">
-                              {c.title}
-                            </p>
-                            <span className="text-xs tabular-nums text-ink-soft">
-                              {c.progress}%
-                            </span>
-                          </div>
-                          <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-inset">
-                            <div
-                              className={cn(
-                                "h-full rounded-full",
-                                c.progress === 100 ? "bg-azul-500" : "bg-azul-700",
-                              )}
-                              style={{ width: `${c.progress}%` }}
-                            />
-                          </div>
-                        </div>
-                        <span className="hidden shrink-0 rounded-sm bg-azul-100 px-2 py-0.5 text-[11px] font-medium text-azul-700 md:block dark:bg-brand-soft dark:text-brand">
-                          {t("mockBadgeEval")}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <p className="max-w-48 text-sm font-medium text-niebla-0/80">
+                {t("imageCaption")}
+              </p>
             </div>
           </div>
 
-          {/* Tarjetas glass flotantes: los otros dos módulos como historia */}
-          <FloatingCard
-            className="-top-8 -right-4 lg:-right-14"
-            icon={
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-azul-100 text-azul-600">
-                <Bell size={16} />
-              </span>
-            }
+          <FloatingProgram
+            className="-top-6 -left-6 lg:-left-14"
+            icon={Briefcase}
             title={t("float1Title")}
             body={t("float1Body")}
           />
-          <FloatingCard
-            className="-left-6 bottom-10 [animation-delay:1.8s] lg:-left-16"
-            icon={
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-azul-100 text-azul-600">
-                <CheckCircle2 size={16} />
-              </span>
-            }
+          <FloatingProgram
+            className="-right-4 -bottom-8 [animation-delay:1.8s] lg:-right-12"
+            icon={Target}
             title={t("float2Title")}
             body={t("float2Body")}
           />

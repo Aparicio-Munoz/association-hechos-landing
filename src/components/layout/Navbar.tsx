@@ -12,10 +12,10 @@ import { cn } from "@/lib/cn";
 
 export interface NavbarLabels {
   navLabel: string;
-  formacion: string;
-  empleo: string;
-  comunidad: string;
-  nosotros: string;
+  mision: string;
+  programas: string;
+  historias: string;
+  contacto: string;
   entrar: string;
   unete: string;
   abrirMenu: string;
@@ -67,15 +67,23 @@ export function Navbar({
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
 
-  // Menú abierto: Escape cierra y el scroll del fondo se bloquea.
+  // Menú abierto: Escape cierra, el scroll del fondo se bloquea, y el
+  // contenido detrás del panel queda `inert` — sin eso, un usuario de
+  // teclado puede tabular hacia contenido invisible detrás del overlay.
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
+    const main = document.getElementById("contenido");
+    const footer = document.querySelector("footer");
+    main?.setAttribute("inert", "");
+    footer?.setAttribute("inert", "");
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
+      main?.removeAttribute("inert");
+      footer?.removeAttribute("inert");
     };
   }, [open]);
 
@@ -89,14 +97,17 @@ export function Navbar({
   }, []);
 
   const links = [
-    { href: "#formacion", label: labels.formacion },
-    { href: "#empleo", label: labels.empleo },
-    { href: "#comunidad", label: labels.comunidad },
-    { href: "#nosotros", label: labels.nosotros },
+    { href: "#mision", label: labels.mision },
+    { href: "#programas", label: labels.programas },
+    { href: "#historias", label: labels.historias },
+    { href: "#contacto", label: labels.contacto },
   ];
 
   return (
     <header
+      // Fuera de pantalla (móvil, scroll hacia abajo): también inert,
+      // para que no quede enfocable por teclado mientras es invisible.
+      inert={hidden && !open}
       className={cn(
         "sticky top-0 z-50 border-b bg-canvas/85 backdrop-blur-md",
         "transition-[transform,border-color,box-shadow] duration-250 ease-ambos",

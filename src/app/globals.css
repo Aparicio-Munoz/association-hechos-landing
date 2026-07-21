@@ -98,7 +98,11 @@
   --color-azul-900: #0b4159;
   --color-azul-950: #0a2a3b;
 
-  /* Niebla · neutros con matiz azul (pertenecen a la identidad) */
+  /* Niebla · neutros con matiz azul (pertenecen a la identidad).
+     'niebla-0' es el "blanco" del sistema: úsalo en vez de white/negro
+     literal siempre que haya texto o decoración clara sobre una banda
+     de marca (azul-700 en adelante) — es casi idéntico a #fff, pero
+     forma parte de la paleta derivada del logo, no un valor genérico. */
   --color-niebla-0: #fcfdfe;
   --color-niebla-50: #f4f8fb;
   --color-niebla-100: #eaf0f5;
