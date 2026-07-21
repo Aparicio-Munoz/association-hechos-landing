@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { AUTH_ENABLED } from "@/lib/feature-flags";
 import { backendUrl, setSessionCookies } from "@/lib/session";
 import type { ApiEnvelope, ApiErrorBody, AuthTokens } from "@/lib/types";
 
@@ -6,6 +7,13 @@ import type { ApiEnvelope, ApiErrorBody, AuthTokens } from "@/lib/types";
  * diferencia del panel de administración, aquí cualquier usuario
  * autenticado obtiene sesión — no hay gate de rol. */
 export async function POST(request: Request) {
+  if (!AUTH_ENABLED) {
+    return NextResponse.json(
+      { message: "El inicio de sesión estará disponible próximamente." },
+      { status: 503 },
+    );
+  }
+
   const body = await request.json().catch(() => null);
   if (!body?.email || !body?.password) {
     return NextResponse.json(

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { UserRound } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { redirect } from "next/navigation";
 import { Container } from "@/components/layout/Container";
 import { Footer } from "@/components/layout/Footer";
 import { LogoutButton } from "@/components/auth/LogoutButton";
+import { AUTH_ENABLED } from "@/lib/feature-flags";
 import { requireSession } from "@/lib/session";
 
 type Params = { params: Promise<{ locale: string }> };
@@ -20,6 +22,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function CuentaPage({ params }: Params) {
   const { locale } = await params;
   setRequestLocale(locale);
+
+  // AUTH_ENABLED off: no hay backend público al que verificar sesión
+  // (ver src/lib/feature-flags.ts) — manda a /login, que hoy muestra el
+  // "próximamente", en vez de intentar `requireSession()` y fallar.
+  if (!AUTH_ENABLED) redirect("/login");
+
   const user = await requireSession();
   const t = await getTranslations("account");
 

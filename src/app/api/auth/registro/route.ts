@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { AUTH_ENABLED } from "@/lib/feature-flags";
 import { backendUrl, setSessionCookies } from "@/lib/session";
 import type { ApiEnvelope, ApiErrorBody, AuthTokens } from "@/lib/types";
 
@@ -6,6 +7,13 @@ import type { ApiEnvelope, ApiErrorBody, AuthTokens } from "@/lib/types";
  * sale bien, deja la sesión iniciada de una vez (mismo comportamiento
  * que `AuthService.register` en el backend: registro = login). */
 export async function POST(request: Request) {
+  if (!AUTH_ENABLED) {
+    return NextResponse.json(
+      { message: "El registro estará disponible próximamente." },
+      { status: 503 },
+    );
+  }
+
   const body = await request.json().catch(() => null);
   if (!body?.email || !body?.password || !body?.nombre) {
     return NextResponse.json(

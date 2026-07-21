@@ -3,12 +3,19 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/layout/Container";
 import { Footer } from "@/components/layout/Footer";
+import { PlaceholderPage } from "@/components/layout/PlaceholderPage";
 import { LoginForm } from "@/components/auth/LoginForm";
+import { AUTH_ENABLED } from "@/lib/feature-flags";
+import { SUPPORT_EMAIL } from "@/lib/site";
 
 type Params = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { locale } = await params;
+  if (!AUTH_ENABLED) {
+    const t = await getTranslations({ locale, namespace: "placeholderPages" });
+    return { title: t("platformTitle"), robots: { index: false, follow: true } };
+  }
   const t = await getTranslations({ locale, namespace: "auth" });
   return { title: t("loginTitle"), robots: { index: false, follow: true } };
 }
@@ -16,6 +23,25 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function LoginPage({ params }: Params) {
   const { locale } = await params;
   setRequestLocale(locale);
+
+  // AUTH_ENABLED off: el backend real todavía no es público (ver
+  // src/lib/feature-flags.ts) — evita exponer un formulario que fallaría.
+  if (!AUTH_ENABLED) {
+    const t = await getTranslations("placeholderPages");
+    return (
+      <>
+        <PlaceholderPage
+          title={t("platformTitle")}
+          body={t("platformBody")}
+          backLabel={t("backCta")}
+          contactLabel={t("contactCta")}
+          contactHref={`mailto:${SUPPORT_EMAIL}`}
+        />
+        <Footer />
+      </>
+    );
+  }
+
   const t = await getTranslations("auth");
 
   return (
