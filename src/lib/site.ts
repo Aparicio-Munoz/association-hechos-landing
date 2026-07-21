@@ -1,9 +1,6 @@
 /** Constantes del sitio (spec SEO). */
-// TODO: dominio definitivo pendiente de confirmar con Asociación Hechos.
-// Nota: hechos.eu es el sitio institucional YA existente de la asociación
-// (quienes-somos, proyectos, colabora...) — esta plataforma es un producto
-// aparte (formación/empleo/comunidad), así que no asumimos ese dominio.
-export const SITE_URL = "https://asociacionhechos.org";
+// Dominio definitivo confirmado por la asociación: hechos.eu.
+export const SITE_URL = "https://hechos.eu";
 export const SITE_NAME = "Asociación Hechos";
 // Correo institucional real y público, verificado en hechos.eu/contacto.
 export const SUPPORT_EMAIL = "info@hechos.eu";

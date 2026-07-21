@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       siteName: SITE_NAME,
       title: t("title"),
       description: t("description"),
-      locale: locale === "es" ? "es_CO" : "en_US",
+      locale: locale === "es" ? "es_ES" : "en_US",
       // La imagen la aporta opengraph-image.tsx (generada en build).
     },
     twitter: {

@@ -3,6 +3,7 @@ import { HeartHandshake, Lock, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
+import { SUPPORT_EMAIL } from "@/lib/site";
 
 /**
  * Cierre real de la landing (antes el link "Escríbenos" apuntaba a
@@ -11,13 +12,13 @@ import { Reveal } from "@/components/motion/Reveal";
  * confianza que antes vivían en "Nosotros" — tienen más sentido como
  * cierre que como dato institucional a mitad de página.
  *
- * TODO(contacto real): reemplazar el correo placeholder por el
- * definitivo en cuanto la asociación confirme dominio y canal oficial.
+ * El correo viene de `SUPPORT_EMAIL` (no de un texto duplicado en el
+ * contenido traducido) — antes vivía como `t("email")` en el JSON y
+ * quedó desactualizado cuando se confirmó el correo real en Footer.tsx.
  */
 export async function Contact() {
   const t = await getTranslations("contact");
 
-  const email = t("email");
   const guarantees = [
     { icon: Lock, text: t("guarantee1") },
     { icon: ShieldCheck, text: t("guarantee2") },
@@ -46,7 +47,7 @@ export async function Contact() {
         </Reveal>
 
         <Reveal delay={100} className="mt-8">
-          <Button variant="inverse" size="lg" href={`mailto:${email}`}>
+          <Button variant="inverse" size="lg" href={`mailto:${SUPPORT_EMAIL}`}>
             {t("cta")}
           </Button>
         </Reveal>
