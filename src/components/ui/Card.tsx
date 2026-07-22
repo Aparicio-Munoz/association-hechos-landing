@@ -21,9 +21,9 @@ export function Card<T extends ElementType = "div">({
   return (
     <Tag
       className={cn(
-        "rounded-lg border border-line bg-elevated p-6 shadow-sm",
+        "rounded-lg border border-line/80 bg-elevated/95 p-6 shadow-sm backdrop-blur-sm",
         hover &&
-          "transition-[transform,box-shadow,border-color] duration-150 ease-salida hover:-translate-y-0.5 hover:border-azul-300 hover:shadow-md",
+          "transition-[transform,box-shadow,border-color] duration-200 ease-salida hover:-translate-y-1 hover:border-azul-300/70 hover:shadow-glow-sm",
         className,
       )}
       {...props}

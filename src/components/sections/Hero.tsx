@@ -35,8 +35,9 @@ function FloatingProgram({
   return (
     <div
       className={cn(
-        "absolute hidden w-60 items-start gap-3 rounded-lg border border-line/60",
-        "bg-elevated/80 p-3.5 text-left shadow-md backdrop-blur-md",
+        "absolute hidden w-60 items-start gap-3 rounded-lg border border-white/25",
+        "bg-elevated/75 p-3.5 text-left shadow-glow-sm backdrop-blur-xl",
+        "transition-[transform,box-shadow] duration-300 ease-salida hover:-translate-y-1 hover:shadow-glow-md",
         "animate-float sm:flex",
         className,
       )}
@@ -77,12 +78,16 @@ export async function Hero() {
 
   return (
     <section className="relative isolate overflow-hidden">
-      {/* ── Capas de fondo: grid de puntos (concentrado a la izquierda,
-          para no competir con el retrato) + auroras azules ── */}
+      {/* ── Capas de fondo: malla de puntos muy sutil (concentrada a la
+          izquierda, para no competir con el retrato) + iluminación
+          radial en capas + una deriva ambiental lentísima para dar
+          profundidad sin distraer ── */}
       <div aria-hidden className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(var(--h-line)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_50%_55%_at_30%_0%,black_25%,transparent_70%)]" />
-        <div className="absolute -top-40 left-1/3 h-120 w-200 -translate-x-1/2 rounded-full bg-azul-400/15 blur-3xl" />
-        <div className="absolute top-40 -right-40 h-96 w-96 rounded-full bg-azul-300/18 blur-3xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(var(--h-line)_1px,transparent_1px)] [background-size:28px_28px] opacity-70 [mask-image:radial-gradient(ellipse_50%_55%_at_30%_0%,black_20%,transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_-10%,var(--h-brand-soft),transparent_60%)] opacity-60" />
+        <div className="animate-drift absolute -top-40 left-1/3 h-120 w-200 -translate-x-1/2 rounded-full bg-azul-400/15 blur-3xl" />
+        <div className="animate-drift absolute top-40 -right-40 h-96 w-96 rounded-full bg-azul-300/18 blur-3xl [animation-delay:-8s]" />
+        <div className="absolute bottom-0 left-0 h-72 w-72 rounded-full bg-azul-500/8 blur-3xl" />
       </div>
 
       <Container
@@ -91,7 +96,7 @@ export async function Hero() {
       >
         {/* ── Columna de texto ── */}
         <div className="flex flex-col items-start text-left">
-          <p className="animate-enter flex items-center gap-2 rounded-full border border-line/70 bg-elevated/60 px-4 py-1.5 text-sm font-medium text-ink-soft shadow-xs backdrop-blur">
+          <p className="animate-enter flex items-center gap-2 rounded-full border border-line/60 bg-elevated/50 px-4 py-1.5 text-sm font-medium text-ink-soft shadow-sm backdrop-blur-xl">
             <Sparkles size={14} className="text-accent" aria-hidden />
             {t("badge")}
           </p>
@@ -133,7 +138,7 @@ export async function Hero() {
             {pillars.map((p) => (
               <li
                 key={p.label}
-                className="flex items-center gap-2 rounded-lg border border-line bg-elevated px-3.5 py-2 text-sm font-medium text-ink shadow-xs"
+                className="flex items-center gap-2 rounded-lg border border-line/70 bg-elevated/80 px-3.5 py-2 text-sm font-medium text-ink shadow-xs backdrop-blur-sm transition-[transform,box-shadow] duration-200 ease-salida hover:-translate-y-0.5 hover:shadow-sm"
               >
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-soft text-brand">
                   <p.icon size={14} aria-hidden />
@@ -195,10 +200,13 @@ export async function Hero() {
               representar a la comunidad. */}
           <div
             aria-hidden
-            className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-linear-to-br from-azul-700 to-azul-950 shadow-lg"
+            className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-linear-to-br from-azul-700 to-azul-950 shadow-lg ring-1 ring-white/10"
           >
-            <div className="absolute -top-12 -right-12 h-56 w-56 rounded-full bg-azul-400/25 blur-3xl" />
-            <div className="absolute bottom-0 left-0 h-40 w-40 rounded-full bg-azul-300/15 blur-3xl" />
+            {/* Sheen de vidrio: una sola luz diagonal muy discreta, no un
+                degradé que compita con el contenido. */}
+            <div className="absolute inset-0 bg-linear-to-br from-white/12 via-transparent to-transparent" />
+            <div className="animate-drift absolute -top-12 -right-12 h-56 w-56 rounded-full bg-azul-400/25 blur-3xl" />
+            <div className="animate-drift absolute bottom-0 left-0 h-40 w-40 rounded-full bg-azul-300/15 blur-3xl [animation-delay:-12s]" />
 
             <div className="relative flex h-full flex-col items-center justify-center gap-4 p-8 text-center">
               {/* Composición: círculos superpuestos = personas diversas
@@ -206,13 +214,13 @@ export async function Hero() {
                   acompañamiento cercano. Arte abstracto propio, no una
                   fotografía simulada. */}
               <div className="relative flex h-32 w-32 items-center justify-center">
-                <span className="absolute -left-2 -top-2 flex h-14 w-14 items-center justify-center rounded-full bg-niebla-0/10 text-niebla-0/70">
+                <span className="absolute -left-2 -top-2 flex h-14 w-14 items-center justify-center rounded-full bg-niebla-0/10 text-niebla-0/70 ring-1 ring-white/15 backdrop-blur-sm">
                   <GraduationCap size={22} aria-hidden />
                 </span>
-                <span className="absolute -right-2 -bottom-2 flex h-14 w-14 items-center justify-center rounded-full bg-niebla-0/10 text-niebla-0/70">
+                <span className="absolute -right-2 -bottom-2 flex h-14 w-14 items-center justify-center rounded-full bg-niebla-0/10 text-niebla-0/70 ring-1 ring-white/15 backdrop-blur-sm">
                   <HeartHandshake size={22} aria-hidden />
                 </span>
-                <span className="flex h-20 w-20 items-center justify-center rounded-full bg-niebla-0/15 text-niebla-0">
+                <span className="flex h-20 w-20 items-center justify-center rounded-full bg-niebla-0/15 text-niebla-0 shadow-glow-sm ring-1 ring-white/20 backdrop-blur-sm">
                   <Users size={32} aria-hidden />
                 </span>
               </div>

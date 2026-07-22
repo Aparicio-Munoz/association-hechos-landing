@@ -59,7 +59,14 @@ export async function Footer() {
   };
 
   return (
-    <footer className="bg-azul-950 text-azul-200">
+    <footer className="relative isolate overflow-hidden bg-azul-950 text-azul-200">
+      {/* Misma gramática de profundidad que Impact.tsx: dos glows muy
+          suaves, nunca compitiendo con el contenido. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -top-24 left-1/4 h-80 w-80 rounded-full bg-azul-500/10 blur-3xl" />
+        <div className="absolute bottom-0 right-1/5 h-72 w-72 rounded-full bg-azul-400/8 blur-3xl" />
+      </div>
+
       <Container className="grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-4">
         <div className="lg:col-span-2">
           <div className="flex items-center gap-2.5">

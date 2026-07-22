@@ -109,9 +109,9 @@ export function Navbar({
       // para que no quede enfocable por teclado mientras es invisible.
       inert={hidden && !open}
       className={cn(
-        "sticky top-0 z-50 border-b bg-canvas/85 backdrop-blur-md",
+        "sticky top-0 z-50 border-b bg-canvas/70 backdrop-blur-xl",
         "transition-[transform,border-color,box-shadow] duration-250 ease-ambos",
-        scrolled ? "border-line shadow-xs" : "border-transparent",
+        scrolled ? "border-line/70 shadow-sm" : "border-transparent",
         // Ocultamiento solo móvil; nunca con el menú abierto.
         hidden && !open && "-translate-y-full md:translate-y-0",
       )}
@@ -190,7 +190,7 @@ export function Navbar({
         id="menu-movil"
         inert={!open}
         className={cn(
-          "fixed inset-x-0 top-15 bottom-0 z-40 flex flex-col overflow-y-auto bg-canvas px-6 pb-8 pt-8 md:hidden",
+          "fixed inset-x-0 top-15 bottom-0 z-40 flex flex-col overflow-y-auto bg-canvas/98 backdrop-blur-xl px-6 pb-8 pt-8 md:hidden",
           "transition-[opacity,transform] duration-250 ease-ambos",
           open
             ? "translate-y-0 opacity-100"

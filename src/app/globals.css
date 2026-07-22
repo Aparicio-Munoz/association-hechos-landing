@@ -133,6 +133,11 @@
   --shadow-md: 0 6px 20px rgb(10 42 59 / 0.1);
   --shadow-lg: 0 16px 40px -8px rgb(10 42 59 / 0.18);
   --shadow-cta: 0 4px 18px rgb(39 180 233 / 0.35);
+  /* Glow: la misma sombra teñida de --shadow-*, pero con el azul de
+     decoración (--h-glow) en vez de azul-950 — reservada a hovers
+     "premium" de superficies interactivas (botones, tarjetas, inputs). */
+  --shadow-glow-sm: 0 4px 20px -6px rgb(39 180 233 / 0.28);
+  --shadow-glow-md: 0 14px 44px -10px rgb(39 180 233 / 0.32), 0 4px 16px -4px rgb(10 42 59 / 0.12);
 
   /* Movimiento */
   --ease-salida: cubic-bezier(0.22, 1, 0.36, 1);
@@ -142,6 +147,9 @@
   --animate-enter: enter 0.5s var(--ease-salida) both;
   --animate-enter-zoom: enter-zoom 0.6s var(--ease-salida) both;
   --animate-float: float 6s ease-in-out infinite;
+  /* Deriva ambiental de los glows de fondo: solo `transform` (GPU,
+     nunca layout/paint) y muy lenta — profundidad, no distracción. */
+  --animate-drift: drift 24s ease-in-out infinite;
 
   @keyframes enter {
     from {
@@ -170,6 +178,15 @@
     }
     50% {
       transform: translateY(-8px);
+    }
+  }
+  @keyframes drift {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(3%, -4%) scale(1.06);
     }
   }
 }

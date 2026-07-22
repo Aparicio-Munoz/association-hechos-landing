@@ -74,8 +74,9 @@ export async function Impact() {
               >
                 <div
                   className={cn(
-                    "flex h-full flex-col rounded-xl border border-niebla-0/10 bg-niebla-0/[0.04] p-7 backdrop-blur-sm",
-                    "transition-colors duration-200 ease-salida hover:border-niebla-0/25 hover:bg-niebla-0/[0.07]",
+                    "flex h-full flex-col rounded-xl border border-niebla-0/10 bg-niebla-0/[0.04] p-7 backdrop-blur-md",
+                    "transition-[transform,border-color,background-color,box-shadow] duration-200 ease-salida",
+                    "hover:-translate-y-1 hover:border-niebla-0/20 hover:bg-niebla-0/[0.07] hover:shadow-glow-sm",
                     s.featured && "sm:flex-row sm:items-center sm:gap-8",
                   )}
                 >

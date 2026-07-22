@@ -46,8 +46,8 @@ export async function Values() {
             <RevealItem key={v.title}>
               <div
                 className={[
-                  "group h-full rounded-lg border border-line bg-elevated p-6 shadow-sm",
-                  "transition-colors duration-200 ease-salida hover:border-azul-300",
+                  "group h-full rounded-lg border border-line/80 bg-elevated/95 p-6 shadow-sm backdrop-blur-sm",
+                  "transition-colors duration-200 ease-salida hover:border-azul-300/70",
                 ].join(" ")}
               >
                 <span

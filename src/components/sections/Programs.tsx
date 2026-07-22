@@ -198,8 +198,8 @@ export async function Programs() {
                 <div className={cn(reversed ? "lg:order-3" : "lg:order-1")}>
                   <div
                     className={cn(
-                      "flex aspect-video items-center justify-center overflow-hidden rounded-xl bg-linear-to-br shadow-md",
-                      "transition-transform duration-300 ease-salida group-hover:scale-[1.03]",
+                      "flex aspect-video items-center justify-center overflow-hidden rounded-xl bg-linear-to-br shadow-md ring-1 ring-white/10",
+                      "transition-[transform,box-shadow] duration-300 ease-salida group-hover:scale-[1.03] group-hover:shadow-glow-md",
                       p.gradient,
                     )}
                   >
@@ -219,9 +219,9 @@ export async function Programs() {
                 <div className={cn(reversed ? "lg:order-1" : "lg:order-3")}>
                   <div
                     className={cn(
-                      "rounded-xl border border-line bg-elevated p-7 shadow-sm sm:p-8",
-                      "transition-[transform,box-shadow,border-color] duration-150 ease-salida",
-                      "group-hover:-translate-y-0.5 group-hover:border-azul-300 group-hover:shadow-md",
+                      "rounded-xl border border-line/80 bg-elevated/95 p-7 shadow-sm backdrop-blur-sm sm:p-8",
+                      "transition-[transform,box-shadow,border-color] duration-200 ease-salida",
+                      "group-hover:-translate-y-1 group-hover:border-azul-300/70 group-hover:shadow-glow-sm",
                     )}
                   >
                     <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-soft text-brand lg:hidden">
