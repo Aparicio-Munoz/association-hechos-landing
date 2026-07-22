@@ -28,7 +28,7 @@ export async function Contact() {
   return (
     <section
       id="contacto"
-      className="relative overflow-hidden bg-linear-to-br from-azul-700 to-azul-900 py-20 text-niebla-0 sm:py-28"
+      className="relative overflow-hidden bg-linear-to-br from-azul-700 to-azul-900 py-24 text-niebla-0 sm:py-32 lg:py-36"
     >
       <div aria-hidden className="absolute inset-0">
         <div className="absolute -top-20 left-1/4 h-72 w-72 rounded-full bg-azul-400/20 blur-3xl" />

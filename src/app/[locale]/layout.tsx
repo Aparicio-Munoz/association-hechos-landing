@@ -106,6 +106,16 @@ export default async function LocaleLayout({
     <html lang={locale} className={`${inter.variable} ${bricolage.variable}`}>
       {/* bg/color del documento: una sola fuente de verdad en globals.css */}
       <body className="font-sans antialiased">
+        {/* Fondo ambiental fijo de todo el sitio: manchas de gradiente muy
+            suaves detrás de todo el contenido. Sin imágenes, sin layout —
+            se nota sobre todo a través del `backdrop-blur` de las
+            tarjetas de vidrio, que dejan de ser "vidrio sobre blanco
+            plano". `-z-10` + `pointer-events-none`: puramente decorativo. */}
+        <div aria-hidden className="fixed inset-0 -z-10 overflow-hidden">
+          <div className="absolute -top-40 left-[10%] h-160 w-160 rounded-full bg-azul-400/[0.05] blur-3xl dark:bg-azul-400/[0.07]" />
+          <div className="absolute top-1/3 -right-40 h-140 w-140 rounded-full bg-azul-300/[0.05] blur-3xl dark:bg-azul-300/[0.06]" />
+          <div className="absolute bottom-0 left-1/4 h-120 w-120 rounded-full bg-azul-500/[0.04] blur-3xl dark:bg-azul-500/[0.06]" />
+        </div>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

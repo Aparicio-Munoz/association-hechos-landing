@@ -24,7 +24,7 @@ export function PlaceholderPage({
   return (
     <main
       id="contenido"
-      className="flex min-h-[70vh] items-center justify-center bg-canvas py-20"
+      className="flex min-h-[70vh] items-center justify-center bg-canvas pt-32 pb-20"
     >
       <Container width="prose" className="flex flex-col items-center text-center">
         <span className="flex h-14 w-14 items-center justify-center rounded-full bg-brand-soft text-brand">

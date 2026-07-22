@@ -18,9 +18,13 @@ const nativeNames: Record<Locale, string> = {
 export function LocaleSwitcher({
   locale,
   label,
+  dark = false,
 }: {
   locale: Locale;
   label: string;
+  /** Sobre el Hero oscuro (solo home, sin scroll): superficie de vidrio
+   * en vez de la píldora clara habitual. */
+  dark?: boolean;
 }) {
   const pathname = usePathname();
 
@@ -28,7 +32,10 @@ export function LocaleSwitcher({
     <div
       role="group"
       aria-label={label}
-      className="flex rounded-full border border-line p-0.5 text-xs font-semibold"
+      className={cn(
+        "flex rounded-full border p-0.5 text-xs font-semibold",
+        dark ? "border-white/20" : "border-line",
+      )}
     >
       {routing.locales.map((code) => {
         const active = code === locale;
@@ -45,8 +52,12 @@ export function LocaleSwitcher({
             className={cn(
               "rounded-full px-3 py-1 uppercase transition-colors duration-150",
               active
-                ? "pointer-events-none bg-brand text-on-brand"
-                : "text-ink-soft hover:text-ink",
+                ? dark
+                  ? "pointer-events-none bg-white/15 text-niebla-0"
+                  : "pointer-events-none bg-brand text-on-brand"
+                : dark
+                  ? "text-azul-100/80 hover:text-niebla-0"
+                  : "text-ink-soft hover:text-ink",
             )}
           >
             {code}

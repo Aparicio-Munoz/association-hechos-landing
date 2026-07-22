@@ -37,7 +37,7 @@ export async function Values() {
   ];
 
   return (
-    <section id="valores" className="bg-canvas py-20 sm:py-28">
+    <section id="valores" className="bg-canvas py-24 sm:py-32 lg:py-36">
       <Container>
         <SectionIntro kicker={t("kicker")} title={t("title")} subtitle={t("subtitle")} />
 
@@ -46,13 +46,13 @@ export async function Values() {
             <RevealItem key={v.title}>
               <div
                 className={[
-                  "group h-full rounded-lg border border-line/80 bg-elevated/95 p-6 shadow-sm backdrop-blur-sm",
+                  "group h-full rounded-2xl border border-line/70 bg-elevated/85 p-6 shadow-sm backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.5)]",
                   "transition-colors duration-200 ease-salida hover:border-azul-300/70",
                 ].join(" ")}
               >
                 <span
                   className={[
-                    "flex h-12 w-12 items-center justify-center rounded-full",
+                    "flex h-12 w-12 items-center justify-center rounded-xl",
                     "bg-brand-soft text-brand",
                     "transition-all duration-300 ease-salida",
                     "group-hover:rotate-6 group-hover:scale-110 group-hover:bg-brand group-hover:text-on-brand",

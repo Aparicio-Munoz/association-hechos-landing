@@ -9,23 +9,31 @@ interface RevealProps {
   children: ReactNode;
   delay?: number;
   className?: string;
+  /** Desenfocado→nítido además de fade+subir — reservado a momentos
+   * puntuales (Hero) por su costo de composición; no se usa en grillas
+   * repetidas (ver RevealGroup). */
+  blur?: boolean;
 }
 
 /**
- * Fade-up al entrar en viewport (spec de animación): dispara una vez,
- * 400ms, ease-salida. `useReducedMotion` elimina el movimiento —
- * el contenido aparece resuelto, nunca se queda invisible.
+ * Fade-up al entrar en viewport: dispara una vez, ease-salida.
+ * `useReducedMotion` elimina el movimiento — el contenido aparece
+ * resuelto, nunca se queda invisible.
  */
-export function Reveal({ children, delay = 0, className }: RevealProps) {
+export function Reveal({ children, delay = 0, className, blur = false }: RevealProps) {
   const reduce = useReducedMotion();
 
   return (
     <m.div
       className={className}
-      initial={reduce ? false : { opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={
+        reduce
+          ? false
+          : { opacity: 0, y: 24, ...(blur && { filter: "blur(10px)" }) }
+      }
+      whileInView={{ opacity: 1, y: 0, ...(blur && { filter: "blur(0px)" }) }}
       viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.4, delay: delay / 1000, ease: EASE_SALIDA }}
+      transition={{ duration: 0.6, delay: delay / 1000, ease: EASE_SALIDA }}
     >
       {children}
     </m.div>

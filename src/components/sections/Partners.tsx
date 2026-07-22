@@ -50,7 +50,7 @@ export async function Partners() {
   ];
 
   return (
-    <section id="empresas" className="bg-canvas py-20 sm:py-28">
+    <section id="empresas" className="bg-canvas py-24 sm:py-32 lg:py-36">
       <Container>
         <SectionIntro kicker={t("kicker")} title={t("title")} subtitle={t("subtitle")} />
 

@@ -55,7 +55,7 @@ export default async function RegistroPage({ params }: Params) {
 
   return (
     <>
-      <main id="contenido" className="flex min-h-[70vh] items-center justify-center bg-canvas py-20">
+      <main id="contenido" className="flex min-h-[70vh] items-center justify-center bg-canvas pt-32 pb-20">
         <Container width="prose" className="w-full max-w-md">
           <div className="rounded-xl border border-line bg-elevated p-8 shadow-sm">
             <h1 className="font-display text-2xl font-bold tracking-tight text-ink">

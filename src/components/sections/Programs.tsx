@@ -176,7 +176,7 @@ export async function Programs() {
   ];
 
   return (
-    <section id="programas" className="bg-canvas py-20 sm:py-28">
+    <section id="programas" className="bg-canvas py-24 sm:py-32 lg:py-36">
       <Container>
         <SectionIntro kicker={t("kicker")} title={t("title")} subtitle={t("subtitle")} />
 
@@ -198,7 +198,7 @@ export async function Programs() {
                 <div className={cn(reversed ? "lg:order-3" : "lg:order-1")}>
                   <div
                     className={cn(
-                      "flex aspect-video items-center justify-center overflow-hidden rounded-xl bg-linear-to-br shadow-md ring-1 ring-white/10",
+                      "flex aspect-video items-center justify-center overflow-hidden rounded-2xl bg-linear-to-br shadow-md ring-1 ring-white/10",
                       "transition-[transform,box-shadow] duration-300 ease-salida group-hover:scale-[1.03] group-hover:shadow-glow-md",
                       p.gradient,
                     )}
@@ -219,7 +219,7 @@ export async function Programs() {
                 <div className={cn(reversed ? "lg:order-1" : "lg:order-3")}>
                   <div
                     className={cn(
-                      "rounded-xl border border-line/80 bg-elevated/95 p-7 shadow-sm backdrop-blur-sm sm:p-8",
+                      "rounded-2xl border border-line/70 bg-elevated/85 p-7 shadow-sm backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.5)] sm:p-8",
                       "transition-[transform,box-shadow,border-color] duration-200 ease-salida",
                       "group-hover:-translate-y-1 group-hover:border-azul-300/70 group-hover:shadow-glow-sm",
                     )}

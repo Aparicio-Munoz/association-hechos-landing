@@ -84,7 +84,7 @@ export async function News() {
   const posts = getPlaceholderPosts(t);
 
   return (
-    <section id="actualidad" className="bg-canvas py-20 sm:py-28">
+    <section id="actualidad" className="bg-canvas py-24 sm:py-32 lg:py-36">
       <Container>
         <SectionIntro kicker={t("kicker")} title={t("title")} subtitle={t("subtitle")} />
 

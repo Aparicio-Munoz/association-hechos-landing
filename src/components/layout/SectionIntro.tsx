@@ -28,14 +28,14 @@ export function SectionIntro({
         className,
       )}
     >
-      <p className="text-sm font-semibold uppercase tracking-wide text-brand">
+      <span className="inline-flex items-center rounded-full border border-brand/20 bg-brand-soft/70 px-3.5 py-1 text-sm font-semibold tracking-wide text-brand backdrop-blur-sm">
         {kicker}
-      </p>
-      <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+      </span>
+      <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl lg:text-5xl">
         {title}
       </h2>
       {subtitle && (
-        <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+        <p className="mt-5 text-lg leading-relaxed text-ink-soft">
           {subtitle}
         </p>
       )}

@@ -138,6 +138,8 @@
      "premium" de superficies interactivas (botones, tarjetas, inputs). */
   --shadow-glow-sm: 0 4px 20px -6px rgb(39 180 233 / 0.28);
   --shadow-glow-md: 0 14px 44px -10px rgb(39 180 233 / 0.32), 0 4px 16px -4px rgb(10 42 59 / 0.12);
+  /* Glow grande: el Hero oscuro y sus paneles de vidrio flotantes. */
+  --shadow-glow-lg: 0 24px 80px -16px rgb(39 180 233 / 0.35), 0 8px 32px -8px rgb(3 12 20 / 0.45);
 
   /* Movimiento */
   --ease-salida: cubic-bezier(0.22, 1, 0.36, 1);

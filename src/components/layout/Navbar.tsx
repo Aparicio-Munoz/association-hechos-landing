@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type CSSProperties } from "react";
 import Image from "next/image";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { Container } from "@/components/layout/Container";
 import { LocaleSwitcher } from "@/components/layout/LocaleSwitcher";
@@ -30,12 +30,14 @@ function NavLink({
   onClick,
   className,
   style,
+  dark,
 }: {
   href: string;
   children: string;
   onClick?: () => void;
   className?: string;
   style?: CSSProperties;
+  dark?: boolean;
 }) {
   return (
     <a
@@ -43,7 +45,8 @@ function NavLink({
       onClick={onClick}
       style={style}
       className={cn(
-        "relative py-1 font-medium text-ink transition-colors duration-150 hover:text-brand",
+        "relative py-1 font-medium transition-colors duration-150",
+        dark ? "text-niebla-0/90 hover:text-niebla-0" : "text-ink hover:text-brand",
         "after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-0",
         "after:-translate-x-1/2 after:rounded-full after:bg-accent",
         "after:transition-[width] after:duration-150 after:ease-salida",
@@ -66,6 +69,12 @@ export function Navbar({
   const { scrolled, hidden } = useScrollState();
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
+  const pathname = usePathname();
+
+  // Solo la home abre con el Hero oscuro — el resto de las páginas
+  // (login, registro, privacidad…) empiezan con fondo claro y la
+  // navbar debe verse como siempre ahí, sin importar el scroll.
+  const overDarkHero = pathname === "/" && !scrolled && !open;
 
   // Menú abierto: Escape cierra, el scroll del fondo se bloquea, y el
   // contenido detrás del panel queda `inert` — sin eso, un usuario de
@@ -109,9 +118,11 @@ export function Navbar({
       // para que no quede enfocable por teclado mientras es invisible.
       inert={hidden && !open}
       className={cn(
-        "sticky top-0 z-50 border-b bg-canvas/70 backdrop-blur-xl",
-        "transition-[transform,border-color,box-shadow] duration-250 ease-ambos",
-        scrolled ? "border-line/70 shadow-sm" : "border-transparent",
+        "fixed inset-x-0 top-0 z-50 border-b",
+        "transition-[transform,border-color,background-color,box-shadow] duration-250 ease-ambos",
+        overDarkHero
+          ? "border-transparent bg-transparent"
+          : "border-line/70 bg-canvas/70 shadow-sm backdrop-blur-xl",
         // Ocultamiento solo móvil; nunca con el menú abierto.
         hidden && !open && "-translate-y-full md:translate-y-0",
       )}
@@ -132,8 +143,14 @@ export function Navbar({
             priority
             className="h-10 w-10"
           />
-          <span className="font-display text-lg font-bold tracking-tight text-ink">
-            Asociación <span className="text-brand">Hechos</span>
+          <span
+            className={cn(
+              "font-display text-lg font-bold tracking-tight transition-colors duration-250",
+              overDarkHero ? "text-niebla-0" : "text-ink",
+            )}
+          >
+            Asociación{" "}
+            <span className={overDarkHero ? "text-azul-300" : "text-brand"}>Hechos</span>
           </span>
         </Link>
 
@@ -143,15 +160,20 @@ export function Navbar({
           className="hidden items-center gap-8 text-sm md:flex"
         >
           {links.map((l) => (
-            <NavLink key={l.href} href={l.href}>
+            <NavLink key={l.href} href={l.href} dark={overDarkHero}>
               {l.label}
             </NavLink>
           ))}
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <LocaleSwitcher locale={locale} label={labels.idioma} />
-          <Button variant="ghost" size="sm" href="/login">
+          <LocaleSwitcher locale={locale} label={labels.idioma} dark={overDarkHero} />
+          <Button
+            variant="ghost"
+            size="sm"
+            href="/login"
+            className={overDarkHero ? "text-niebla-0 hover:bg-white/10" : undefined}
+          >
             {labels.entrar}
           </Button>
           <Button size="sm" href="/registro">
@@ -171,14 +193,16 @@ export function Navbar({
           <span
             aria-hidden
             className={cn(
-              "block h-0.5 w-5 rounded-full bg-ink transition-transform duration-200 ease-ambos",
+              "block h-0.5 w-5 rounded-full transition-transform duration-200 ease-ambos",
+              overDarkHero ? "bg-niebla-0" : "bg-ink",
               open && "translate-y-1 rotate-45",
             )}
           />
           <span
             aria-hidden
             className={cn(
-              "mt-1.5 block h-0.5 w-5 rounded-full bg-ink transition-transform duration-200 ease-ambos",
+              "mt-1.5 block h-0.5 w-5 rounded-full transition-transform duration-200 ease-ambos",
+              overDarkHero ? "bg-niebla-0" : "bg-ink",
               open && "-translate-y-1 -rotate-45",
             )}
           />

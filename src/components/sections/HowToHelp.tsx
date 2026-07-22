@@ -107,7 +107,7 @@ export async function HowToHelp() {
   ];
 
   return (
-    <section id="ayudar" className="bg-subtle py-20 sm:py-28">
+    <section id="ayudar" className="bg-subtle py-24 sm:py-32 lg:py-36">
       <Container>
         <SectionIntro kicker={t("kicker")} title={t("title")} subtitle={t("subtitle")} />
 

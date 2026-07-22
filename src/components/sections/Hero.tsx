@@ -11,6 +11,7 @@ import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { CountUp } from "@/components/motion/CountUp";
+import { Parallax } from "@/components/motion/Parallax";
 import { cn } from "@/lib/cn";
 
 /**
@@ -35,19 +36,20 @@ function FloatingProgram({
   return (
     <div
       className={cn(
-        "absolute hidden w-60 items-start gap-3 rounded-lg border border-white/25",
-        "bg-elevated/75 p-3.5 text-left shadow-glow-sm backdrop-blur-xl",
-        "transition-[transform,box-shadow] duration-300 ease-salida hover:-translate-y-1 hover:shadow-glow-md",
+        "absolute hidden w-60 items-start gap-3 rounded-2xl border border-white/15",
+        "bg-white/[0.07] p-4 text-left shadow-glow-md backdrop-blur-2xl",
+        "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12)]",
+        "transition-[transform,box-shadow] duration-300 ease-salida hover:-translate-y-1 hover:shadow-glow-lg",
         "animate-float sm:flex",
         className,
       )}
     >
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-soft text-brand">
-        <Icon size={15} aria-hidden />
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-azul-400/40 to-azul-600/40 text-niebla-0 ring-1 ring-white/20">
+        <Icon size={16} aria-hidden />
       </span>
       <div className="min-w-0">
-        <p className="text-sm font-semibold text-ink">{title}</p>
-        <p className="mt-0.5 text-xs leading-snug text-ink-soft">{body}</p>
+        <p className="text-sm font-semibold text-niebla-0">{title}</p>
+        <p className="mt-0.5 text-xs leading-snug text-azul-100/75">{body}</p>
       </div>
     </div>
   );
@@ -77,40 +79,61 @@ export async function Hero() {
   ];
 
   return (
-    <section className="relative isolate overflow-hidden">
-      {/* ── Capas de fondo: malla de puntos muy sutil (concentrada a la
-          izquierda, para no competir con el retrato) + iluminación
-          radial en capas + una deriva ambiental lentísima para dar
-          profundidad sin distraer ── */}
+    <section className="relative isolate overflow-hidden bg-azul-950 pb-28 sm:pb-36">
+      {/* ── Fondo: malla de gradientes en capas + suelo con perspectiva.
+          Cero imágenes, cero layout — solo gradientes y blur, con un
+          ligero parallax de scroll en las manchas (nunca en el
+          contenido legible). ── */}
       <div aria-hidden className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(var(--h-line)_1px,transparent_1px)] [background-size:28px_28px] opacity-70 [mask-image:radial-gradient(ellipse_50%_55%_at_30%_0%,black_20%,transparent_70%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_-10%,var(--h-brand-soft),transparent_60%)] opacity-60" />
-        <div className="animate-drift absolute -top-40 left-1/3 h-120 w-200 -translate-x-1/2 rounded-full bg-azul-400/15 blur-3xl" />
-        <div className="animate-drift absolute top-40 -right-40 h-96 w-96 rounded-full bg-azul-300/18 blur-3xl [animation-delay:-8s]" />
-        <div className="absolute bottom-0 left-0 h-72 w-72 rounded-full bg-azul-500/8 blur-3xl" />
+        <div className="absolute inset-0 bg-linear-to-b from-azul-950 via-azul-950 to-[#040d15]" />
+
+        <Parallax range={60} className="absolute inset-0">
+          <div className="absolute -top-32 left-1/4 h-140 w-140 -translate-x-1/2 rounded-full bg-azul-500/20 blur-3xl" />
+          <div className="absolute top-10 -right-32 h-120 w-120 rounded-full bg-azul-400/15 blur-3xl" />
+          <div className="absolute bottom-0 left-10 h-96 w-96 rounded-full bg-azul-300/10 blur-3xl" />
+        </Parallax>
+
+        {/* Luz radial central detrás del titular */}
+        <div className="absolute inset-x-0 top-0 h-160 bg-[radial-gradient(ellipse_55%_45%_at_50%_0%,rgb(39_180_233/0.16),transparent_70%)]" />
+
+        {/* Suelo con perspectiva, tipo consola de producto — se apaga
+            antes de tocar el contenido, decoración pura. */}
+        <div className="absolute inset-x-0 bottom-0 h-72 [mask-image:linear-gradient(to_top,black,transparent)]">
+          <div className="absolute inset-0 origin-bottom [transform:perspective(500px)_rotateX(68deg)] bg-[linear-gradient(rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:56px_56px] opacity-60" />
+        </div>
       </div>
 
+      {/*
+        Entradas en CSS puro (`animate-enter`), no Framer Motion: este
+        contenido está en el viewport inicial (no hay que "revelarlo" al
+        hacer scroll), y una animación disparada por JS/IntersectionObserver
+        obliga al navegador a esperar la hidratación antes de pintarlo —
+        eso fue justo lo que retrasó el LCP ~2.9s en una primera pasada de
+        este rediseño. `Reveal`/`RevealGroup` siguen siendo lo correcto
+        para el resto de las secciones, que sí están fuera de pantalla al
+        cargar.
+      */}
       <Container
         width="wide"
-        className="grid items-center gap-16 pt-16 pb-24 sm:pt-20 lg:grid-cols-[1.05fr_0.95fr] lg:pt-24"
+        className="grid items-center gap-16 pt-32 sm:pt-36 lg:grid-cols-[1.05fr_0.95fr] lg:pt-40"
       >
         {/* ── Columna de texto ── */}
         <div className="flex flex-col items-start text-left">
-          <p className="animate-enter flex items-center gap-2 rounded-full border border-line/60 bg-elevated/50 px-4 py-1.5 text-sm font-medium text-ink-soft shadow-sm backdrop-blur-xl">
-            <Sparkles size={14} className="text-accent" aria-hidden />
+          <p className="animate-enter flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-4 py-1.5 text-sm font-medium text-azul-100 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] backdrop-blur-xl">
+            <Sparkles size={14} className="text-azul-300" aria-hidden />
             {t("badge")}
           </p>
 
-          <h1 className="animate-enter mt-6 max-w-xl font-display text-4xl font-bold tracking-tight text-ink [animation-delay:80ms] sm:text-5xl lg:text-6xl">
+          <h1 className="animate-enter mt-6 max-w-xl font-display text-5xl font-bold tracking-tight text-niebla-0 [animation-delay:80ms] sm:text-6xl lg:text-7xl">
             {t("h1Start")}{" "}
-            <span className="bg-linear-to-r from-azul-700 via-azul-500 to-azul-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-azul-300 via-azul-200 to-niebla-0 bg-clip-text text-transparent">
               {t("h1Accent")}
             </span>{" "}
             {t("h1End")}
-            <span className="text-glow">.</span>
+            <span className="text-azul-400">.</span>
           </h1>
 
-          <p className="animate-enter mt-6 max-w-lg text-lg text-ink-soft [animation-delay:160ms] sm:text-xl">
+          <p className="animate-enter mt-6 max-w-lg text-lg text-azul-100/80 [animation-delay:160ms] sm:text-xl">
             {t("subtitle")}
           </p>
 
@@ -123,13 +146,13 @@ export async function Hero() {
               variant="secondary"
               size="lg"
               href="#mision"
-              className="w-full sm:w-auto"
+              className="w-full border-white/25 text-niebla-0 hover:border-white/40 hover:bg-white/10 sm:w-auto"
             >
               {t("ctaSecondary")}
             </Button>
           </div>
 
-          <p className="animate-enter mt-4 text-sm text-ink-soft [animation-delay:300ms]">
+          <p className="animate-enter mt-4 text-sm text-azul-200/70 [animation-delay:300ms]">
             {t("micro")}
           </p>
 
@@ -138,9 +161,9 @@ export async function Hero() {
             {pillars.map((p) => (
               <li
                 key={p.label}
-                className="flex items-center gap-2 rounded-lg border border-line/70 bg-elevated/80 px-3.5 py-2 text-sm font-medium text-ink shadow-xs backdrop-blur-sm transition-[transform,box-shadow] duration-200 ease-salida hover:-translate-y-0.5 hover:shadow-sm"
+                className="flex items-center gap-2.5 rounded-xl border border-white/12 bg-white/[0.05] px-3.5 py-2.5 text-sm font-medium text-niebla-0 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)] transition-[transform,background-color] duration-200 ease-salida hover:-translate-y-0.5 hover:bg-white/[0.09]"
               >
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-soft text-brand">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-linear-to-br from-azul-400/50 to-azul-600/50 text-niebla-0 ring-1 ring-white/15">
                   <p.icon size={14} aria-hidden />
                 </span>
                 {p.label}
@@ -161,23 +184,23 @@ export async function Hero() {
                     <dd>
                       <Badge
                         tone="neutral"
-                        className="border border-dashed border-line bg-transparent"
+                        className="border border-dashed border-white/25 bg-transparent text-azul-200 ring-0"
                       >
                         {t("pendingBadge")}
                       </Badge>
                     </dd>
-                    <dd className="mt-2 text-sm text-ink-soft">{s.label}</dd>
+                    <dd className="mt-2 text-sm text-azul-200/70">{s.label}</dd>
                   </>
                 ) : (
                   <>
-                    <dd className="font-display text-3xl font-bold text-ink sm:text-4xl">
+                    <dd className="font-display text-3xl font-bold text-niebla-0 sm:text-4xl">
                       {s.kind === "count" ? (
                         <CountUp to={s.value} delay={600} />
                       ) : (
                         s.value
                       )}
                     </dd>
-                    <dd className="mt-1 text-sm text-ink-soft" aria-hidden>
+                    <dd className="mt-1 text-sm text-azul-200/70" aria-hidden>
                       {s.label}
                     </dd>
                   </>
@@ -187,12 +210,20 @@ export async function Hero() {
           </dl>
         </div>
 
-        {/* ── Columna visual: ilustración abstracta de inclusión y
-            formación (placeholder hasta tener foto real). Solo la
-            ilustración es aria-hidden; las FloatingProgram llevan texto
-            real (nombre y objetivo de un programa) y deben quedar
-            legibles para lectores de pantalla. ── */}
+        {/* ── Columna visual: composición de vidrio en capas (panel
+            trasero + panel de vidrio al frente), ilustración abstracta
+            de inclusión y formación (placeholder hasta tener foto real).
+            Solo la ilustración es aria-hidden; las FloatingProgram
+            llevan texto real y deben quedar legibles para lectores de
+            pantalla. ── */}
         <div className="animate-enter-zoom relative mx-auto w-full max-w-md [animation-delay:220ms]">
+          {/* Panel trasero: profundidad de "composición", no una tarjeta
+              real — puramente decorativo. */}
+          <div
+            aria-hidden
+            className="absolute inset-4 -z-10 rotate-3 rounded-[2rem] bg-linear-to-br from-azul-600/40 to-azul-900/40 blur-md"
+          />
+
           {/* TODO(fotografía real): sustituir esta ilustración por <Image>
               con una foto real de la comunidad de Hechos (con
               consentimiento) en cuanto esté disponible. No usar fotos de
@@ -200,13 +231,12 @@ export async function Hero() {
               representar a la comunidad. */}
           <div
             aria-hidden
-            className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-linear-to-br from-azul-700 to-azul-950 shadow-lg ring-1 ring-white/10"
+            className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-white/10 bg-linear-to-br from-azul-700/90 to-azul-950 shadow-glow-lg"
           >
-            {/* Sheen de vidrio: una sola luz diagonal muy discreta, no un
-                degradé que compita con el contenido. */}
+            {/* Sheen de vidrio: una sola luz diagonal muy discreta. */}
             <div className="absolute inset-0 bg-linear-to-br from-white/12 via-transparent to-transparent" />
-            <div className="animate-drift absolute -top-12 -right-12 h-56 w-56 rounded-full bg-azul-400/25 blur-3xl" />
-            <div className="animate-drift absolute bottom-0 left-0 h-40 w-40 rounded-full bg-azul-300/15 blur-3xl [animation-delay:-12s]" />
+            <div className="absolute -top-12 -right-12 h-56 w-56 rounded-full bg-azul-400/25 blur-3xl" />
+            <div className="absolute bottom-0 left-0 h-40 w-40 rounded-full bg-azul-300/15 blur-3xl" />
 
             <div className="relative flex h-full flex-col items-center justify-center gap-4 p-8 text-center">
               {/* Composición: círculos superpuestos = personas diversas
@@ -214,13 +244,13 @@ export async function Hero() {
                   acompañamiento cercano. Arte abstracto propio, no una
                   fotografía simulada. */}
               <div className="relative flex h-32 w-32 items-center justify-center">
-                <span className="absolute -left-2 -top-2 flex h-14 w-14 items-center justify-center rounded-full bg-niebla-0/10 text-niebla-0/70 ring-1 ring-white/15 backdrop-blur-sm">
+                <span className="absolute -left-2 -top-2 flex h-14 w-14 items-center justify-center rounded-2xl bg-niebla-0/10 text-niebla-0/70 ring-1 ring-white/15">
                   <GraduationCap size={22} aria-hidden />
                 </span>
-                <span className="absolute -right-2 -bottom-2 flex h-14 w-14 items-center justify-center rounded-full bg-niebla-0/10 text-niebla-0/70 ring-1 ring-white/15 backdrop-blur-sm">
+                <span className="absolute -right-2 -bottom-2 flex h-14 w-14 items-center justify-center rounded-2xl bg-niebla-0/10 text-niebla-0/70 ring-1 ring-white/15">
                   <HeartHandshake size={22} aria-hidden />
                 </span>
-                <span className="flex h-20 w-20 items-center justify-center rounded-full bg-niebla-0/15 text-niebla-0 shadow-glow-sm ring-1 ring-white/20 backdrop-blur-sm">
+                <span className="flex h-20 w-20 items-center justify-center rounded-full bg-niebla-0/15 text-niebla-0 shadow-glow-sm ring-1 ring-white/20">
                   <Users size={32} aria-hidden />
                 </span>
               </div>

@@ -47,7 +47,7 @@ export async function Impact() {
     <>
       <SectionDivider from="bg-subtle" to="text-azul-950" />
 
-      <section id="impacto" className="relative overflow-hidden bg-azul-950 py-20 text-niebla-0 sm:py-28">
+      <section id="impacto" className="relative overflow-hidden bg-azul-950 py-24 text-niebla-0 sm:py-32 lg:py-36">
         <div aria-hidden className="absolute inset-0">
           <div className="absolute top-0 left-1/3 h-72 w-72 rounded-full bg-azul-500/15 blur-3xl" />
           <div className="absolute bottom-0 right-1/4 h-72 w-72 rounded-full bg-azul-400/10 blur-3xl" />
@@ -74,7 +74,7 @@ export async function Impact() {
               >
                 <div
                   className={cn(
-                    "flex h-full flex-col rounded-xl border border-niebla-0/10 bg-niebla-0/[0.04] p-7 backdrop-blur-md",
+                    "flex h-full flex-col rounded-2xl border border-niebla-0/10 bg-niebla-0/[0.05] p-7 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)]",
                     "transition-[transform,border-color,background-color,box-shadow] duration-200 ease-salida",
                     "hover:-translate-y-1 hover:border-niebla-0/20 hover:bg-niebla-0/[0.07] hover:shadow-glow-sm",
                     s.featured && "sm:flex-row sm:items-center sm:gap-8",

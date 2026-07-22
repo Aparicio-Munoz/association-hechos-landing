@@ -46,7 +46,7 @@ export async function SuccessStories() {
 
       <section
         id="historias"
-        className="relative overflow-hidden bg-linear-to-br from-azul-800 to-azul-950 py-20 text-niebla-0 sm:py-28"
+        className="relative overflow-hidden bg-linear-to-br from-azul-800 to-azul-950 py-24 text-niebla-0 sm:py-32 lg:py-36"
       >
         <div aria-hidden className="absolute inset-0">
           <div className="absolute -top-24 left-1/4 h-96 w-96 rounded-full bg-azul-400/20 blur-3xl" />

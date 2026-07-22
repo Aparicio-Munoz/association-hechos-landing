@@ -27,7 +27,7 @@ export async function Employment() {
   ];
 
   return (
-    <section id="empleabilidad" className="bg-canvas py-20 sm:py-28">
+    <section id="empleabilidad" className="bg-canvas py-24 sm:py-32 lg:py-36">
       <Container width="prose">
         <SectionIntro
           align="left"

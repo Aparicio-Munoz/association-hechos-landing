@@ -23,7 +23,7 @@ export async function Courses() {
   ];
 
   return (
-    <section id="formacion" className="bg-subtle py-20 sm:py-28">
+    <section id="formacion" className="bg-subtle py-24 sm:py-32 lg:py-36">
       <Container>
         <SectionIntro
           align="left"

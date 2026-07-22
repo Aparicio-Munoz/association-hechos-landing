@@ -13,7 +13,7 @@ export async function Faq() {
   const items = [1, 2, 3, 4, 5, 6] as const;
 
   return (
-    <section className="bg-canvas py-20 sm:py-28">
+    <section className="bg-canvas py-24 sm:py-32 lg:py-36">
       <Container width="prose">
         <Reveal>
           <h2 className="text-center font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
