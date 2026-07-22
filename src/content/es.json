@@ -269,7 +269,12 @@
     "goToLogin": "Inicia sesión",
     "goToRegister": "Regístrate",
     "genericError": "Algo salió mal. Inténtalo de nuevo en unos minutos.",
-    "requiredFieldsError": "Completa los campos obligatorios."
+    "requiredFieldsError": "Completa los campos obligatorios.",
+    "continueWithGoogle": "Continuar con Google",
+    "orDivider": "o",
+    "googleCallbackConnecting": "Conectando con tu cuenta de Google…",
+    "googleCallbackError": "No se pudo completar el inicio de sesión con Google.",
+    "googleCallbackBackToLogin": "Volver a iniciar sesión"
   },
   "account": {
     "kicker": "Tu cuenta",

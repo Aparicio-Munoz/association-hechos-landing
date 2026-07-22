@@ -74,6 +74,8 @@ export default async function RegistroPage({ params }: Params) {
                   registerPendingCta: t("registerPendingCta"),
                   genericError: t("genericError"),
                   requiredFieldsError: t("requiredFieldsError"),
+                  continueWithGoogle: t("continueWithGoogle"),
+                  orDivider: t("orDivider"),
                 }}
               />
             </div>

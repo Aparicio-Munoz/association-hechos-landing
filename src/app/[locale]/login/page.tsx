@@ -71,6 +71,8 @@ export default async function LoginPage({ params }: Params) {
                   loginPendingCta: t("loginPendingCta"),
                   genericError: t("genericError"),
                   requiredFieldsError: t("requiredFieldsError"),
+                  continueWithGoogle: t("continueWithGoogle"),
+                  orDivider: t("orDivider"),
                 }}
               />
             </div>

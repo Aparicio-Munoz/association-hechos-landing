@@ -269,7 +269,12 @@
     "goToLogin": "Log in",
     "goToRegister": "Sign up",
     "genericError": "Something went wrong. Please try again in a few minutes.",
-    "requiredFieldsError": "Please fill in the required fields."
+    "requiredFieldsError": "Please fill in the required fields.",
+    "continueWithGoogle": "Continue with Google",
+    "orDivider": "or",
+    "googleCallbackConnecting": "Connecting to your Google account…",
+    "googleCallbackError": "We couldn't complete Google sign-in.",
+    "googleCallbackBackToLogin": "Back to login"
   },
   "account": {
     "kicker": "Your account",
