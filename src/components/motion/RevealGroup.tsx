@@ -34,6 +34,16 @@ const item: Variants = {
  * de disparo pasa a ser "todo el recorrido de scroll donde el grupo
  * roza el viewport", inmune a ese salto de umbral sea cual sea la
  * altura del contenido o la velocidad del scroll.
+ *
+ * `margin: "400px 0px"` amplía además el area que el propio
+ * IntersectionObserver considera "viewport" (equivale a su
+ * `rootMargin`). Con scroll extremo (toda la pagina en pocos segundos)
+ * incluso "some" puede tener una ventana de deteccion mas corta que el
+ * intervalo real entre lecturas del observer bajo carga - visto una
+ * vez en produccion como caso limite (Contacto/Faq, cerca del final de
+ * una pagina muy larga). El margen le da al observer varios cientos de
+ * pixeles de mas para capturar la lectura antes de que el elemento
+ * termine de cruzar, sin adelantar la animacion de forma perceptible.
  */
 export function RevealGroup({
   children,
@@ -48,7 +58,7 @@ export function RevealGroup({
       className={className}
       initial={reduce ? false : "hidden"}
       whileInView="show"
-      viewport={{ once: true, amount: "some" }}
+      viewport={{ once: true, amount: "some", margin: "400px 0px" }}
       variants={container}
     >
       {children}
