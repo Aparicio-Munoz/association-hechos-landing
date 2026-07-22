@@ -113,20 +113,21 @@ export function Navbar({
   ];
 
   return (
-    <header
-      // Fuera de pantalla (móvil, scroll hacia abajo): también inert,
-      // para que no quede enfocable por teclado mientras es invisible.
-      inert={hidden && !open}
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 border-b",
-        "transition-[transform,border-color,background-color,box-shadow] duration-250 ease-ambos",
-        overDarkHero
-          ? "border-transparent bg-transparent"
-          : "border-line/70 bg-canvas/70 shadow-sm backdrop-blur-xl",
-        // Ocultamiento solo móvil; nunca con el menú abierto.
-        hidden && !open && "-translate-y-full md:translate-y-0",
-      )}
-    >
+    <>
+      <header
+        // Fuera de pantalla (móvil, scroll hacia abajo): también inert,
+        // para que no quede enfocable por teclado mientras es invisible.
+        inert={hidden && !open}
+        className={cn(
+          "fixed inset-x-0 top-0 z-50 border-b",
+          "transition-[transform,border-color,background-color,box-shadow] duration-250 ease-ambos",
+          overDarkHero
+            ? "border-transparent bg-transparent"
+            : "border-line/70 bg-canvas/70 shadow-sm backdrop-blur-xl",
+          // Ocultamiento solo móvil; nunca con el menú abierto.
+          hidden && !open && "-translate-y-full md:translate-y-0",
+        )}
+      >
       <Container className="flex h-15 items-center justify-between md:h-17">
         {/* Logo oficial de hechos + wordmark de la asociación */}
         <Link
@@ -208,8 +209,14 @@ export function Navbar({
           />
         </button>
       </Container>
+      </header>
 
-      {/* Panel móvil a pantalla completa (bajo la barra, que conserva la X) */}
+      {/* Panel móvil a pantalla completa (bajo la barra, que conserva la X).
+       * Fuera de <header> a propósito: ese elemento lleva `backdrop-blur`
+       * cuando no está sobre el Hero oscuro, y un filtro/backdrop-filter
+       * en un ancestro crea un "containing block" nuevo para los
+       * descendientes `fixed` — el panel quedaba anclado al alto de la
+       * barra (unos 60px) en vez de a todo el viewport. */}
       <div
         id="menu-movil"
         inert={!open}
@@ -251,6 +258,6 @@ export function Navbar({
           </Button>
         </div>
       </div>
-    </header>
+    </>
   );
 }
