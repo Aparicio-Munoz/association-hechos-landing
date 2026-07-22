@@ -13,7 +13,11 @@ type Params = { params: Promise<{ locale: string }> };
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "account" });
-  return { title: t("kicker"), robots: { index: false, follow: false } };
+  return {
+    title: t("kicker"),
+    alternates: { canonical: locale === "es" ? "/cuenta" : "/en/cuenta" },
+    robots: { index: false, follow: false },
+  };
 }
 
 /** Placeholder honesto post-login (decisión explícita del usuario):

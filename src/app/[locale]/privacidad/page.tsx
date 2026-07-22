@@ -9,7 +9,11 @@ type Params = { params: Promise<{ locale: string }> };
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "placeholderPages" });
-  return { title: t("privacyTitle"), robots: { index: false, follow: true } };
+  return {
+    title: t("privacyTitle"),
+    alternates: { canonical: locale === "es" ? "/privacidad" : "/en/privacidad" },
+    robots: { index: false, follow: true },
+  };
 }
 
 /** No se inventa texto legal: la página lo dice tal cual hasta que

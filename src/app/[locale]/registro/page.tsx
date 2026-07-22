@@ -12,12 +12,21 @@ type Params = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { locale } = await params;
+  const canonical = locale === "es" ? "/registro" : "/en/registro";
   if (!AUTH_ENABLED) {
     const t = await getTranslations({ locale, namespace: "placeholderPages" });
-    return { title: t("platformTitle"), robots: { index: false, follow: true } };
+    return {
+      title: t("platformTitle"),
+      alternates: { canonical },
+      robots: { index: false, follow: true },
+    };
   }
   const t = await getTranslations({ locale, namespace: "auth" });
-  return { title: t("registerTitle"), robots: { index: false, follow: true } };
+  return {
+    title: t("registerTitle"),
+    alternates: { canonical },
+    robots: { index: false, follow: true },
+  };
 }
 
 export default async function RegistroPage({ params }: Params) {

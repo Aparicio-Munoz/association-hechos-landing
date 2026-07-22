@@ -1,5 +1,5 @@
+import dynamic from "next/dynamic";
 import { setRequestLocale } from "next-intl/server";
-import { MotionProvider } from "@/components/motion/MotionProvider";
 import { Hero } from "@/components/sections/Hero";
 import { Mission } from "@/components/sections/Mission";
 import { Values } from "@/components/sections/Values";
@@ -14,6 +14,14 @@ import { HowToHelp } from "@/components/sections/HowToHelp";
 import { Faq } from "@/components/sections/Faq";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/layout/Footer";
+
+/** Code-splitting: framer-motion (~15KB) se descarga en un chunk aparte
+ * en vez de sumarse al bundle inicial — sigue renderizando en el
+ * servidor (ssr:true, por defecto), solo cambia cuándo se descarga/
+ * evalúa el JS del cliente. */
+const MotionProvider = dynamic(() =>
+  import("@/components/motion/MotionProvider").then((m) => m.MotionProvider),
+);
 
 type Params = { params: Promise<{ locale: string }> };
 
