@@ -40,6 +40,10 @@ yarn-error.log*
 .env*
 !.env.example
 
+# credenciales descargadas de Google Cloud Console (OAuth) — nunca al repo
+client_secret_*.json
+"ID cliente"/
+
 # vercel
 .vercel
 
