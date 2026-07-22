@@ -19,6 +19,12 @@ interface RevealProps {
  * Fade-up al entrar en viewport: dispara una vez, ease-salida.
  * `useReducedMotion` elimina el movimiento — el contenido aparece
  * resuelto, nunca se queda invisible.
+ *
+ * `amount: "some"` (no un número): ver la nota extensa en
+ * RevealGroup.tsx — un umbral por porcentaje contra un bloque alto
+ * puede quedar fuera de alcance en viewports cortos o "saltarse" bajo
+ * scroll rápido, dejando el elemento atascado en `hidden` para
+ * siempre (bug real encontrado en producción, ver Programs.tsx).
  */
 export function Reveal({ children, delay = 0, className, blur = false }: RevealProps) {
   const reduce = useReducedMotion();
@@ -32,7 +38,7 @@ export function Reveal({ children, delay = 0, className, blur = false }: RevealP
           : { opacity: 0, y: 24, ...(blur && { filter: "blur(10px)" }) }
       }
       whileInView={{ opacity: 1, y: 0, ...(blur && { filter: "blur(0px)" }) }}
-      viewport={{ once: true, amount: 0.3 }}
+      viewport={{ once: true, amount: "some" }}
       transition={{ duration: 0.6, delay: delay / 1000, ease: EASE_SALIDA }}
     >
       {children}

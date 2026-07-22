@@ -21,6 +21,19 @@ const item: Variants = {
  * `filter: blur` a propósito — a diferencia de `Reveal` (usado en
  * momentos puntuales), esto se repite muchas veces por página y el
  * blur de composición sí se nota en el frame rate a esa escala.
+ *
+ * `amount: "some"` (no un número, p. ej. 0.2) a propósito: el umbral
+ * se evalúa contra la caja del grupo COMPLETO, que en listas largas
+ * (Programs.tsx: 5 filas apiladas en móvil) puede medir miles de
+ * píxeles. Un 20% de esa altura supera el propio viewport en móvil
+ * (imposible de satisfacer nunca), y en desktop es una ventana de
+ * cruce tan angosta que un scroll rápido/continuo hace que el
+ * navegador salte esa lectura exacta del IntersectionObserver, dejando
+ * la animación atascada en `hidden` para siempre (once:true no
+ * reintenta). "some" dispara con el primer píxel visible: la ventana
+ * de disparo pasa a ser "todo el recorrido de scroll donde el grupo
+ * roza el viewport", inmune a ese salto de umbral sea cual sea la
+ * altura del contenido o la velocidad del scroll.
  */
 export function RevealGroup({
   children,
@@ -35,7 +48,7 @@ export function RevealGroup({
       className={className}
       initial={reduce ? false : "hidden"}
       whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: true, amount: "some" }}
       variants={container}
     >
       {children}
