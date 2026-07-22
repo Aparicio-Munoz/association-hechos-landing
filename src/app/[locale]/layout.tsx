@@ -22,6 +22,11 @@ const bricolage = Bricolage_Grotesque({
   display: "swap",
 });
 
+// Cache-busting manual para los archivos de favicon (viven en public/,
+// sin el versionado automático por hash de la convención de Next.js):
+// súbelo cada vez que se reemplacen los PNG/SVG/ICO del favicon.
+const FAVICON_VERSION = 1;
+
 type Params = { params: Promise<{ locale: string }> };
 
 /**
@@ -53,6 +58,31 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     alternates: {
       canonical: locale === "es" ? "/" : "/en",
       languages: { es: "/", en: "/en", "x-default": "/" },
+    },
+    // Isotipo (círculo + llama) rediseñado como vector limpio — ver
+    // public/favicon.svg. Sustituye a los favicon.ico/icon.png/
+    // apple-icon.png de src/app/ (auto-detectados por Next.js, que
+    // versionan la URL solos) por control explícito de qué formato
+    // ofrece cada dispositivo. Como ahora viven en public/ sin ese
+    // versionado automático, `?v=` fuerza a los navegadores a pedir
+    // la versión nueva si el archivo vuelve a cambiar — subir este
+    // número (o los de FAVICON_VERSION más abajo) es la única forma
+    // de invalidar el favicon cacheado tras un futuro rediseño.
+    icons: {
+      icon: [
+        { url: `/favicon.svg?v=${FAVICON_VERSION}`, type: "image/svg+xml" },
+        { url: `/icon.png?v=${FAVICON_VERSION}`, sizes: "32x32", type: "image/png" },
+        { url: `/icon-48.png?v=${FAVICON_VERSION}`, sizes: "48x48", type: "image/png" },
+        { url: `/icon-64.png?v=${FAVICON_VERSION}`, sizes: "64x64", type: "image/png" },
+      ],
+      shortcut: [`/favicon.ico?v=${FAVICON_VERSION}`],
+      apple: [
+        {
+          url: `/apple-touch-icon.png?v=${FAVICON_VERSION}`,
+          sizes: "180x180",
+          type: "image/png",
+        },
+      ],
     },
     openGraph: {
       type: "website",
