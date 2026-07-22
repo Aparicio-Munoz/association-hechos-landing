@@ -54,11 +54,6 @@ function securityHeaders() {
 }
 
 const nextConfig: NextConfig = {
-  // Solo importa los módulos de framer-motion/lucide-react realmente
-  // usados en vez del paquete completo por archivo — menos JS por chunk.
-  experimental: {
-    optimizePackageImports: ["framer-motion", "lucide-react"],
-  },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders() }];
   },
